@@ -245,13 +245,14 @@
                         <h3 id="pdf-main-title" class="text-center font-bold text-base md:text-xl mb-6 md:mb-8 uppercase text-black">REKOD PP MENYERAHKAN SALINAN BORANG KEPADA PYD</h3>
                         
                         <div class="overflow-x-auto table-container w-full pb-2">
-                            <table class="w-full min-w-[750px] border-collapse border border-black text-xs md:text-sm text-black">
+                            <table class="w-full min-w-[850px] border-collapse border border-black text-xs md:text-sm text-black">
                                 <thead>
                                     <tr class="bg-gray-50">
                                         <th class="border border-black p-2 md:p-3 w-10 md:w-12 text-center" rowspan="2">BIL</th>
                                         <th class="border border-black p-2 md:p-3 min-w-[180px]" rowspan="2">NAMA PYD</th>
                                         <th id="pdf-col-title" class="border border-black p-2 md:p-3 text-center" colspan="2">BORANG<br><span class="font-normal text-[10px] md:text-xs">TARIKH/ TANDATANGAN</span></th>
                                         <th class="border border-black p-2 md:p-3 min-w-[150px]" rowspan="2">CATATAN</th>
+                                        <th class="border border-black p-2 md:p-3 w-20 text-center no-print-col bg-slate-100" rowspan="2">TINDAKAN</th>
                                     </tr>
                                     <tr class="bg-gray-50">
                                         <th class="border border-black p-2 text-center w-[120px] md:w-40">PP1</th>
@@ -298,28 +299,15 @@
                     <div id="pdf-content-jadual" class="p-4 md:p-8 w-full">
                         <h3 class="text-center font-bold text-sm md:text-lg mb-6 md:mb-8 uppercase text-black">SALINAN JADUAL/ PERANCANGAN PENJAJARAN MASA PENILAIAN OLEH PP</h3>
                         
-                        <!-- Inputs NAMA PP & JAWATAN -->
-                        <div class="mb-6 max-w-2xl text-xs md:text-sm">
-                            <div class="flex items-center gap-2 mb-3">
-                                <label class="font-bold text-black w-20 md:w-24 shrink-0">NAMA PP</label>
-                                <span class="font-bold text-black">:</span>
-                                <input type="text" class="flex-1 border-b border-black outline-none bg-transparent text-black uppercase font-medium focus:border-blue-500 text-base md:text-sm" placeholder="...">
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <label class="font-bold text-black w-20 md:w-24 shrink-0">JAWATAN</label>
-                                <span class="font-bold text-black">:</span>
-                                <input type="text" class="flex-1 border-b border-black outline-none bg-transparent text-black uppercase font-medium focus:border-blue-500 text-base md:text-sm" placeholder="...">
-                            </div>
-                        </div>
-
                         <!-- Table Container -->
                         <div class="overflow-x-auto table-container w-full pb-2">
-                            <table class="w-full min-w-[1200px] border-collapse border border-black text-xs md:text-sm text-black">
+                            <table class="w-full min-w-[1300px] border-collapse border border-black text-xs md:text-sm text-black">
                                 <thead>
                                     <tr class="bg-gray-50">
                                         <th class="border border-black p-2 md:p-3 w-10 text-center align-middle" rowspan="2">BIL</th>
                                         <th class="border border-black p-2 md:p-3 min-w-[200px] align-middle text-left" rowspan="2">NAMA PYD</th>
                                         <th class="border border-black p-2 text-center" colspan="8">AKTIVITI/ TARIKH</th>
+                                        <th class="border border-black p-2 md:p-3 w-20 text-center align-middle no-print-col bg-slate-100" rowspan="2">TINDAKAN</th>
                                     </tr>
                                     <tr class="bg-gray-50">
                                         <th class="border border-black p-2 h-36 md:h-48 align-bottom text-center w-[85px] md:w-[100px]">
@@ -411,6 +399,34 @@
         function toggleBodyScroll(disable) {
             if (disable) document.body.classList.add('no-scroll');
             else document.body.classList.remove('no-scroll');
+        }
+
+        // Tindakan: Padam Baris dan Susun Semula Nombor (BIL)
+        function padamRow(btn, tbodyId) {
+            const tr = btn.closest('tr');
+            tr.remove();
+            
+            const tbody = document.getElementById(tbodyId);
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                row.cells[0].innerText = index + 1;
+            });
+        }
+
+        // Tindakan: Simpan/Kemaskini Baris (Visual Feedback)
+        function kemaskiniRow(btn) {
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="check" class="w-3 h-3 mr-1"></i> Berjaya`;
+            btn.classList.remove('bg-blue-100', 'text-blue-700', 'hover:bg-blue-200', 'active:bg-blue-300');
+            btn.classList.add('bg-green-100', 'text-green-700');
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-green-100', 'text-green-700');
+                btn.classList.add('bg-blue-100', 'text-blue-700', 'hover:bg-blue-200', 'active:bg-blue-300');
+                lucide.createIcons();
+            }, 1500);
         }
 
         // 2. Clock Logic
@@ -599,6 +615,41 @@
             closeSignaturePad();
         }
 
+        // --- Senarai Guru (PYD) Global ---
+        const senaraiPYD = [
+            "AZIZ BIN TAHIR",
+            "MOHAMAD ABIDIN BIN SIPEK",
+            "LING MEE CHOO",
+            "SALIHIN BIN AHMAD",
+            "WONG PICK KING",
+            "TING HUA EE",
+            "JACQUELINE TIONG HOE DING",
+            "NUR HIDAYU BINTI YUSOP",
+            "MOHD RAFEEQ BIN SULAIMAN",
+            "FAZRI BIN BAKERI",
+            "HILWA HAYATI BINTI MOHAMAD AJALAN",
+            "KHAIRI BIN SAHARI",
+            "SABARIAH BINTI SOLHI",
+            "BRYAN ANAK CONSTANT",
+            "JIMMY ANAK PETER",
+            "TING YU YONG",
+            "JERIAH ANAK SIMON",
+            "ZEPRINA ANAK BENIK",
+            "SYAEEZA LIANA BINTI RAMLI",
+            "HAIROL BIN ISMAIL",
+            "NURUL HUDA BTE MOHD IHWAN",
+            "MARY JANE AMOI UMPANG ANAK DANIEL",
+            "EIFILISIA AMBER ANAK MERVIN",
+            "AIDA MASTURINA BINTI HAMKA",
+            "AIFA NUR BESTARI BINTI RADUAN",
+            "NUR AZLIN BINTI NORIZAN",
+            "TENG RU YUN",
+            "VANITHA A/P SUBRAMANIAM",
+            "DLIYANA ANAK JOHN",
+            "MUHAMMAD ZULHUSAINI BIN ABDUL WAHAB",
+            "CHRISTIAN SIMON",
+            "NUR FADZLIAH AMAL BINTI OSMAN"
+        ];
 
         // --- Logik Modul Rekod Penyerahan Borang (Item 8 & 9) ---
         let rowCount = 0;
@@ -635,7 +686,7 @@
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             
             if(rowCount === 0) {
-                addRow(); addRow(); addRow();
+                senaraiPYD.forEach(nama => addRow(nama));
             }
         }
 
@@ -646,7 +697,7 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
-        function addRow() {
+        function addRow(namaPYD = '') {
             rowCount++;
             const tbody = document.getElementById('rekod-tbody');
             const tr = document.createElement('tr');
@@ -655,7 +706,7 @@
             tr.innerHTML = `
                 <td class="border border-black p-2 text-center text-black font-medium text-sm">${rowCount}</td>
                 <td class="border border-black p-0">
-                    <input type="text" class="w-full h-full p-2 md:p-3 outline-none bg-transparent text-black text-base md:text-sm" placeholder="Nama PYD...">
+                    <input type="text" class="w-full h-full p-2 md:p-3 outline-none bg-transparent text-black text-base md:text-sm" placeholder="Nama PYD..." value="${namaPYD}">
                 </td>
                 <td class="border border-black p-2 text-center align-middle" id="cell-PP1-${rowCount}">
                     <button onclick="openSignaturePad(${rowCount}, 'PP1')" class="text-xs bg-emerald-100 text-emerald-700 active:bg-emerald-300 px-3 py-2 md:py-1.5 rounded-md font-semibold inline-flex items-center gap-1 transition-colors no-print-button">
@@ -669,6 +720,16 @@
                 </td>
                 <td class="border border-black p-0">
                     <input type="text" class="w-full h-full p-2 md:p-3 outline-none bg-transparent text-black text-base md:text-sm" placeholder="Catatan...">
+                </td>
+                <td class="border border-black p-2 text-center align-middle no-print-col">
+                    <div class="flex flex-col gap-1.5 justify-center items-center">
+                        <button onclick="kemaskiniRow(this)" class="text-[10px] w-full bg-blue-100 text-blue-700 hover:bg-blue-200 active:bg-blue-300 px-2 py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors">
+                            <i data-lucide="save" class="w-3 h-3 mr-1"></i> Simpan
+                        </button>
+                        <button onclick="padamRow(this, 'rekod-tbody')" class="text-[10px] w-full bg-red-100 text-red-700 hover:bg-red-200 active:bg-red-300 px-2 py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors">
+                            <i data-lucide="trash-2" class="w-3 h-3 mr-1"></i> Padam
+                        </button>
+                    </div>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -684,8 +745,12 @@
                 input.setAttribute('value', input.value);
             });
 
+            // Sembunyikan butang dan ruangan yang tidak patut di-print
             const noPrintBtns = element.querySelectorAll('.no-print-button');
             noPrintBtns.forEach(btn => btn.style.display = 'none');
+            
+            const noPrintCols = element.querySelectorAll('.no-print-col');
+            noPrintCols.forEach(col => col.style.display = 'none');
 
             const originalWidth = pdfWrapper.style.width;
             pdfWrapper.style.width = '1024px'; 
@@ -701,6 +766,7 @@
             html2pdf().set(opt).from(element).save().then(() => {
                 pdfWrapper.style.width = originalWidth;
                 noPrintBtns.forEach(btn => btn.style.display = 'inline-flex');
+                noPrintCols.forEach(col => col.style.display = ''); // Kembalikan paparan asal
             });
         }
 
@@ -715,7 +781,7 @@
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             
             if(jadualRowCount === 0) {
-                addJadualRow(); addJadualRow(); addJadualRow(); addJadualRow();
+                senaraiPYD.forEach(nama => addJadualRow(nama));
             }
         }
 
@@ -732,7 +798,6 @@
                 <td class="border border-black p-1 align-top bg-white w-[90px] md:w-[100px]">
                     <div class="flex flex-col w-full h-full min-h-[90px]">
                         <input type="date" class="w-full p-1 text-center outline-none bg-transparent text-black text-[10px] md:text-[11px] border-b border-slate-200 cursor-pointer" title="Tarikh">
-                        <input type="text" class="w-full p-1 text-center outline-none bg-transparent text-black text-[10px] md:text-[11px] border-b border-slate-200" placeholder="Nama PP" title="Nama PP">
                         <div id="sign-container-${col}-${row}" class="flex-1 flex flex-col items-center justify-center pt-1.5 pb-0.5">
                             <button onclick="openSignaturePad(${row}, '${col}')" class="text-[10px] w-full py-1.5 bg-emerald-100 text-emerald-700 active:bg-emerald-300 rounded font-semibold inline-flex items-center justify-center transition-colors no-print-button">
                                 <i data-lucide="pen-tool" class="w-3 h-3 md:mr-1"></i><span class="hidden md:inline">Sign</span>
@@ -743,7 +808,7 @@
             `;
         }
 
-        function addJadualRow() {
+        function addJadualRow(namaPYD = '') {
             jadualRowCount++;
             const tbody = document.getElementById('jadual-tbody');
             const tr = document.createElement('tr');
@@ -751,7 +816,7 @@
             tr.innerHTML = `
                 <td class="border border-black p-2 text-center text-black font-medium text-sm align-top pt-4">${jadualRowCount}</td>
                 <td class="border border-black p-0 align-top">
-                    <input type="text" class="w-full h-full min-h-[90px] p-2 outline-none bg-transparent text-black text-base md:text-sm" placeholder="Nama PYD...">
+                    <input type="text" class="w-full h-full min-h-[90px] p-2 outline-none bg-transparent text-black text-base md:text-sm" placeholder="Nama PYD..." value="${namaPYD}">
                 </td>
                 ${createJadualCell(jadualRowCount, 'J1')}
                 ${createJadualCell(jadualRowCount, 'J2')}
@@ -762,6 +827,16 @@
                 ${createJadualCell(jadualRowCount, 'J7')}
                 <td class="border border-black p-0 align-top">
                     <input type="text" class="w-full h-full min-h-[90px] p-2 outline-none bg-transparent text-black text-base md:text-xs" placeholder="Catatan...">
+                </td>
+                <td class="border border-black p-2 text-center align-middle no-print-col">
+                    <div class="flex flex-col gap-1.5 justify-center items-center">
+                        <button onclick="kemaskiniRow(this)" class="text-[10px] w-full bg-blue-100 text-blue-700 hover:bg-blue-200 active:bg-blue-300 px-2 py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors">
+                            <i data-lucide="save" class="w-3 h-3 mr-1"></i> Simpan
+                        </button>
+                        <button onclick="padamRow(this, 'jadual-tbody')" class="text-[10px] w-full bg-red-100 text-red-700 hover:bg-red-200 active:bg-red-300 px-2 py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors">
+                            <i data-lucide="trash-2" class="w-3 h-3 mr-1"></i> Padam
+                        </button>
+                    </div>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -779,6 +854,9 @@
 
             const noPrintBtns = element.querySelectorAll('.no-print-button');
             noPrintBtns.forEach(btn => btn.style.display = 'none');
+            
+            const noPrintCols = element.querySelectorAll('.no-print-col');
+            noPrintCols.forEach(col => col.style.display = 'none');
 
             // Force element width to desktop size for high quality pdf
             const originalWidth = pdfWrapper.style.width;
@@ -795,6 +873,7 @@
             html2pdf().set(opt).from(element).save().then(() => {
                 pdfWrapper.style.width = originalWidth;
                 noPrintBtns.forEach(btn => btn.style.display = 'inline-flex');
+                noPrintCols.forEach(col => col.style.display = ''); // Kembalikan paparan asal
             });
         }
     </script>
