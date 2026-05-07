@@ -261,7 +261,7 @@
                     <div id="pdf-content" class="p-2 sm:p-4 md:p-10 w-full">
                         <h3 id="pdf-main-title" class="text-center font-bold text-sm md:text-xl mb-4 md:mb-8 uppercase text-black leading-snug px-2">REKOD PP MENYERAHKAN SALINAN BORANG KEPADA PYD</h3>
                         
-                        <div class="overflow-x-auto table-container w-full pb-2 touch-pan-x">
+                        <div class="overflow-x-auto table-container w-full pb-2">
                             <table class="w-full min-w-[750px] border-collapse border border-black text-xs md:text-sm text-black">
                                 <thead>
                                     <tr class="bg-gray-50">
@@ -317,7 +317,7 @@
                         <h3 class="text-center font-bold text-xs md:text-lg mb-4 md:mb-8 uppercase text-black leading-snug px-2">SALINAN JADUAL/ PERANCANGAN PENJAJARAN MASA PENILAIAN OLEH PP</h3>
                         
                         <!-- Table Container -->
-                        <div class="overflow-x-auto table-container w-full pb-4 touch-pan-x">
+                        <div class="overflow-x-auto table-container w-full pb-4">
                             <table class="w-full min-w-[950px] md:min-w-[1200px] border-collapse border border-black text-xs md:text-sm text-black">
                                 <thead>
                                     <tr class="bg-gray-50">
@@ -746,7 +746,7 @@
             tr.innerHTML = `
                 <td class="border border-black p-1 md:p-2 text-center text-black font-medium text-xs md:text-sm">${rowCount}</td>
                 <td class="border border-black p-0 sticky-mobile sticky-shadow bg-white">
-                    <input type="text" class="w-full h-full p-2 md:p-3 outline-none bg-transparent text-black text-[13px] md:text-sm" placeholder="Nama PYD..." value="${namaPYD}">
+                    <input type="text" class="w-full h-full p-2 outline-none bg-transparent text-black text-[11px] md:text-xs font-bold uppercase tracking-tight" placeholder="Nama PYD..." value="${namaPYD}">
                 </td>
                 <td class="border border-black p-1 md:p-2 text-center align-middle min-w-[80px]" id="cell-PP1-${rowCount}">
                     <button onclick="openSignaturePad(${rowCount}, 'PP1')" class="text-[11px] md:text-xs w-full bg-emerald-100 text-emerald-700 active:bg-emerald-300 py-2 md:py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors no-print-button">
@@ -856,7 +856,7 @@
             tr.innerHTML = `
                 <td class="border border-black p-1 md:p-2 text-center text-black font-medium text-xs md:text-sm align-top pt-3 md:pt-4">${jadualRowCount}</td>
                 <td class="border border-black p-0 align-top sticky-mobile sticky-shadow bg-white">
-                    <input type="text" class="w-full h-full min-h-[90px] md:min-h-[100px] p-2 outline-none bg-transparent text-black text-[13px] md:text-sm" placeholder="Nama PYD..." value="${namaPYD}">
+                    <input type="text" class="w-full h-full min-h-[90px] md:min-h-[100px] p-2 pt-3 outline-none bg-transparent text-black text-[11px] md:text-xs font-bold uppercase tracking-tight" placeholder="Nama PYD..." value="${namaPYD}">
                 </td>
                 ${createJadualCell(jadualRowCount, 'J1')}
                 ${createJadualCell(jadualRowCount, 'J2')}
