@@ -73,6 +73,12 @@
         input[type="date"]::-webkit-calendar-picker-indicator:hover {
             opacity: 1;
         }
+
+        /* Animasi Billboard */
+        @keyframes shimmer {
+            0% { transform: translateX(-250%) skewX(-15deg); }
+            50%, 100% { transform: translateX(250%) skewX(-15deg); }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#f8fafc] relative font-sans overflow-x-hidden selection:bg-blue-200">
@@ -115,6 +121,25 @@
             <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-medium shadow-sm">
                 <i data-lucide="clock" class="w-4 h-4 opacity-80"></i>
                 <span id="clock-display">Memuatkan masa...</span>
+            </div>
+        </div>
+
+        <!-- Interactive Billboard -->
+        <div class="w-full max-w-3xl mx-auto mb-10 md:mb-12 transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer">
+            <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 p-[2px] rounded-2xl shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-white/30 skew-x-12 -translate-x-[250%] animate-[shimmer_3s_infinite]"></div>
+                <div class="bg-white/20 backdrop-blur-xl rounded-xl px-4 py-3 md:px-6 md:py-4 flex items-center gap-3 md:gap-4 text-white relative z-10">
+                    <div class="bg-white/30 p-2 md:p-2.5 rounded-full shrink-0 shadow-inner">
+                        <i data-lucide="bell-ring" class="w-5 h-5 md:w-6 md:h-6 animate-bounce"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-extrabold text-sm md:text-base drop-shadow-md uppercase tracking-wider text-yellow-50">Pengumuman Rasmi</h3>
+                        <p class="text-xs md:text-sm font-semibold text-white mt-0.5 drop-shadow-sm">Penilaian pertama 20 April - 9 Jun 2026 sedang berjalan.</p>
+                    </div>
+                    <div class="shrink-0 bg-red-600/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30 text-[10px] md:text-xs font-bold uppercase tracking-wider shadow-sm animate-pulse">
+                        Sedang Berjalan
+                    </div>
+                </div>
             </div>
         </div>
 
