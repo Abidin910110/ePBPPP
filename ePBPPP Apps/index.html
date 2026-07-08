@@ -3,51 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Portal ePBPPP SKPK Miri</title>
-
-    <!-- PWA Meta Tags (Untuk ciri 'Install App' di peranti bimbit & komputer) -->
-    <meta name="theme-color" content="#253f7c">
+    <title>Portal ePBPPP - SK Pendidikan Khas Miri</title>
+    
+    <!-- Meta untuk PWA & Ikon Peranti -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ePBPPP SKPK">
+    <meta name="theme-color" content="#253f7c">
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
-    <!-- Web Manifest untuk Android/Chrome Installation -->
+    
+    <!-- Web Manifest Lintasan Pantas Android/Chrome -->
     <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Portal%20ePBPPP%20SKPK%20Miri%22%2C%22short_name%22%3A%22ePBPPP%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%23253f7c%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22logo.jpg%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%2C%7B%22src%22%3A%22logo.jpg%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%5D%7D">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS & Kumpulan Ikon Lucide -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- HTML2PDF & Signature Pad (Khas untuk PDF & Tandatangan) -->
+    
+    <!-- Pustaka Pihak Ketiga: Fail PDF & Pad Tandatangan -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    
     <style>
-        /* Smooth scrolling and basic resets */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
-        body { -webkit-tap-highlight-color: transparent; }
+        
         .glass-panel {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
-        /* Lock scroll when signing */
         .no-scroll { overflow: hidden; }
-        /* Canvas touch optimization */
         canvas { touch-action: none; }
-        /* Custom scrollbar for table on mobile */
+        
+        /* Bar skrol tersuai untuk jadual lebar pada peranti mudah alih */
         .table-container::-webkit-scrollbar { height: 6px; }
         .table-container::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         .table-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+        .logo-hover:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
         
-        /* CSS Untuk Teks Menegak (Vertical Text Item 10) */
+        /* Orientasi Teks Menegak bagi Tajuk Jadual Item 10 */
         .vertical-text {
             writing-mode: vertical-rl;
             transform: rotate(180deg);
             white-space: nowrap;
         }
         
-        /* CSS Untuk Mobile Sticky Column */
+        /* Rekabentuk Lajur Kaku untuk Paparan Telefon Pintar */
         @media (max-width: 768px) {
             .sticky-mobile {
                 position: sticky;
@@ -60,11 +68,10 @@
                 z-index: 20;
             }
             .sticky-shadow {
-                box-shadow: 2px 0 5px -1px rgba(0,0,0,0.2);
+                box-shadow: 2px 0 5px -1px rgba(0,0,0,0.15);
             }
         }
 
-        /* Ubahsuai input date supaya kelihatan kemas */
         input[type="date"]::-webkit-calendar-picker-indicator {
             cursor: pointer;
             opacity: 0.6;
@@ -74,36 +81,30 @@
             opacity: 1;
         }
 
-        /* Animasi Billboard */
         @keyframes shimmer {
             0% { transform: translateX(-250%) skewX(-15deg); }
             50%, 100% { transform: translateX(250%) skewX(-15deg); }
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#f8fafc] relative font-sans overflow-x-hidden selection:bg-blue-200">
+<body class="min-h-screen bg-[#f8fafc] relative font-sans overflow-x-hidden selection:bg-blue-200 text-slate-900">
 
-    <!-- Background Styling -->
+    <!-- Elemen Dekorasi Latar Belakang -->
     <div class="fixed inset-0 z-0 pointer-events-none">
-        <!-- Subtle dot pattern -->
         <div class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
-        <!-- Top gradient (Deep blue to transparent) -->
-        <div class="absolute top-0 left-0 right-0 h-[60vh] bg-gradient-to-b from-[#253f7c] via-[#4a6bbd]/80 to-transparent"></div>
+        <div class="absolute top-0 left-0 right-0 h-[50vh] bg-gradient-to-b from-[#253f7c] via-[#4a6bbd]/70 to-transparent"></div>
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 md:pt-16 pb-24">
+    <!-- Jalur Hiasan Atas -->
+    <div class="h-2 bg-[#F6B93B] w-full relative z-20"></div>
+
+    <!-- Kandungan Utama Aplikasi -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-10 md:pt-14 pb-24">
         
-        <!-- Header Section -->
-        <div class="flex flex-col items-center text-center mb-10 md:mb-12">
-            <!-- Logo -->
-            <div class="w-24 h-24 md:w-28 md:h-28 bg-white rounded-full shadow-lg mb-5 flex items-center justify-center border-4 border-white/20 overflow-hidden p-1">
-                <img 
-                    src="logo.jpg" 
-                    alt="Logo SKPK Miri" 
-                    class="w-full h-full object-contain rounded-full"
-                    onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';"
-                />
-                <!-- Fallback if image not found -->
+        <!-- Bahagian Header Utama -->
+        <div class="flex flex-col items-center text-center mb-10">
+            <div class="w-24 h-24 md:w-28 md:h-28 bg-white rounded-full shadow-lg mb-5 flex items-center justify-center border-4 border-white/20 overflow-hidden p-1 logo-hover">
+                <img src="logo.jpg" alt="Logo SKPK Miri" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
                 <div id="logo-fallback" class="hidden w-full h-full rounded-full bg-slate-50 items-center justify-center border border-slate-100">
                     <i data-lucide="graduation-cap" class="text-[#253f7c] w-10 h-10"></i>
                 </div>
@@ -112,901 +113,934 @@
             <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight drop-shadow-md mb-2">
                 Portal ePBPPP SK Pendidikan Khas Miri
             </h1>
-            
-            <p class="text-lg sm:text-xl md:text-2xl font-medium text-white/90 italic drop-shadow-sm mb-6">
+            <p class="text-base sm:text-lg md:text-xl font-medium text-white/90 italic drop-shadow-sm mb-6">
                 "Agar Dapat Turut Berbakti"
             </p>
             
-            <!-- Date & Time Badge -->
-            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-medium shadow-sm">
+            <!-- Lencana Paparan Waktu Nyata -->
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-xs md:text-sm font-medium shadow-sm">
                 <i data-lucide="clock" class="w-4 h-4 opacity-80"></i>
                 <span id="clock-display">Memuatkan masa...</span>
             </div>
         </div>
 
-        <!-- Interactive Billboard -->
-        <div class="w-full max-w-3xl mx-auto mb-10 md:mb-12 transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer">
+        <!-- Papan Billboard Pengumuman Rasmi (Status: Selesai) -->
+        <div class="w-full max-w-3xl mx-auto mb-10 transform hover:scale-[1.01] transition-transform duration-300">
             <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 p-[2px] rounded-2xl shadow-lg relative overflow-hidden">
-                <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-white/30 skew-x-12 -translate-x-[250%] animate-[shimmer_3s_infinite]"></div>
-                <div class="bg-white/20 backdrop-blur-xl rounded-xl px-4 py-3 md:px-6 md:py-4 flex items-center gap-3 md:gap-4 text-white relative z-10">
-                    <div class="bg-white/30 p-2 md:p-2.5 rounded-full shrink-0 shadow-inner">
-                        <i data-lucide="bell-ring" class="w-5 h-5 md:w-6 md:h-6 animate-bounce"></i>
+                <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-white/20 skew-x-12 -translate-x-[250%] animate-[shimmer_4s_infinite]"></div>
+                <div class="bg-white/10 backdrop-blur-xl rounded-2xl px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-white relative z-10">
+                    <div class="flex items-center gap-3.5 w-full sm:w-auto">
+                        <div class="bg-white/20 p-2.5 rounded-full shrink-0 shadow-inner">
+                            <i data-lucide="bell-ring" class="w-5 h-5 animate-bounce"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-xs md:text-sm uppercase tracking-wider text-yellow-100">Pengumuman Rasmi</h3>
+                            <p class="text-xs md:text-sm font-semibold text-white mt-0.5">Penilaian pertama 20 April - 9 Jun 2026 telah selesai.</p>
+                        </div>
                     </div>
-                    <div class="flex-1">
-                        <h3 class="font-extrabold text-sm md:text-base drop-shadow-md uppercase tracking-wider text-yellow-50">Pengumuman Rasmi</h3>
-                        <p class="text-xs md:text-sm font-semibold text-white mt-0.5 drop-shadow-sm">Penilaian pertama 20 April - 9 Jun 2026 sedang berjalan.</p>
-                    </div>
-                    <div class="shrink-0 bg-red-600/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30 text-[10px] md:text-xs font-bold uppercase tracking-wider shadow-sm animate-pulse">
-                        Sedang Berjalan
+                    <div class="shrink-0 bg-emerald-600/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-[10px] md:text-xs font-bold uppercase tracking-wider shadow-sm">
+                        STATUS: SELESAI
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Menu Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-start">
+        <!-- Kisi Menu Utama (Grid System) -->
+        <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start">
             
-            <!-- MENU 1: Fail Pengurusan PBPPP -->
-            <div id="card-1" class="w-full flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 bg-gradient-to-br from-blue-500 to-indigo-600 hover:-translate-y-1">
-                <button onclick="toggleMenu(1)" class="w-full min-h-[130px] md:min-h-[150px] group p-4 md:p-5 flex items-center gap-4 md:gap-5 focus:outline-none rounded-2xl text-left active:scale-[0.98] transition-transform">
-                    <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
-                        <i data-lucide="folder-open" class="w-6 h-6 stroke-2"></i>
+            <!-- KAD 1: Fail Pengurusan PBPPP -->
+            <div id="card-1" class="menu-card w-full flex flex-col rounded-2xl shadow-sm hover:shadow-md border border-slate-200/60 bg-gradient-to-br from-blue-600 to-indigo-700 hover:-translate-y-1 transition-all duration-300">
+                <button onclick="toggleMenu(1)" class="w-full min-h-[120px] group p-5 flex items-center gap-4 text-left focus:outline-none rounded-2xl">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-105 transition-transform duration-300 shadow-inner backdrop-blur-sm">
+                        <i data-lucide="folder-open" class="w-5 h-5 stroke-2"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-base md:text-lg font-bold text-white group-hover:text-white/90 transition-colors drop-shadow-sm">Fail Pengurusan PBPPP</h3>
-                        <p class="text-xs md:text-sm text-white/90 mt-1 leading-snug font-medium line-clamp-2 md:line-clamp-none">Akses folder dokumen pengurusan jawatankuasa dan fail induk PBPPP.</p>
+                        <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Fail Pengurusan PBPPP</h3>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Akses kepada Fail Pengurusan PBPPP mengikut senarai semak rasmi (Borang B) KPM dan BPSH.</p>
                     </div>
-                    <div class="text-white/80 shrink-0 group-hover:text-white transition-colors">
+                    <div class="text-white/80 shrink-0">
                         <i id="chevron-1" data-lucide="chevron-right" class="w-5 h-5 transform transition-transform duration-300"></i>
                     </div>
                 </button>
-                <!-- Dropdown -->
-                <div id="menu-1" class="overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0">
-                    <div class="px-2 md:px-3 pb-3">
-                        <div class="glass-panel rounded-xl shadow-inner p-1 md:p-2">
-                            <ul class="space-y-1" id="list-1">
-                                <!-- JS will populate this to keep HTML clean -->
-                            </ul>
+                <div id="menu-1" class="overflow-hidden transition-all duration-300 max-h-0 opacity-0">
+                    <div class="px-3 pb-3">
+                        <div class="glass-panel rounded-xl shadow-inner p-1.5">
+                            <ul class="space-y-0.5" id="list-1"></ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MENU 2: Penilaian Kendiri -->
-            <div class="w-full flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 bg-gradient-to-br from-violet-500 to-purple-600 hover:-translate-y-1">
-                <button onclick="window.open('https://drive.google.com/drive/folders/14MvpoKPc50JiJlYIEEHfso9XCU2_Xpne?usp=sharing', '_blank')" class="w-full min-h-[130px] md:min-h-[150px] group p-4 md:p-5 flex items-center gap-4 md:gap-5 focus:outline-none rounded-2xl text-left active:scale-[0.98] transition-transform">
-                    <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
-                        <i data-lucide="user-check" class="w-6 h-6 stroke-2"></i>
+            <!-- KAD 2: Penilaian Kendiri -->
+            <div id="card-2" class="menu-card w-full flex flex-col rounded-2xl shadow-sm hover:shadow-md border border-slate-200/60 bg-gradient-to-br from-violet-600 to-purple-700 hover:-translate-y-1 transition-all duration-300">
+                <button onclick="window.open('https://drive.google.com/drive/folders/14MvpoKPc50JiJlYIEEHfso9XCU2_Xpne?usp=sharing', '_blank')" class="w-full min-h-[120px] group p-5 flex items-center gap-4 text-left focus:outline-none rounded-2xl">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-105 transition-transform duration-300 shadow-inner backdrop-blur-sm">
+                        <i data-lucide="user-check" class="w-5 h-5 stroke-2"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-base md:text-lg font-bold text-white group-hover:text-white/90 transition-colors drop-shadow-sm">Penilaian Kendiri</h3>
-                        <p class="text-xs md:text-sm text-white/90 mt-1 leading-snug font-medium">Borang dan panduan untuk Pegawai Yang Dinilai (PYD) melengkapkan penilaian kendiri.</p>
+                        <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Penilaian Kendiri</h3>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Akses kepada Borang Standard 4 dan RPH penilaian kendiri semua PYD</p>
                     </div>
-                    <div class="text-white/80 shrink-0 group-hover:text-white transition-colors">
-                        <i data-lucide="external-link" class="w-5 h-5"></i>
+                    <div class="text-white/80 shrink-0">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
                     </div>
                 </button>
             </div>
 
-            <!-- MENU 3: Pegawai Penilai -->
-            <div id="card-3" class="w-full flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 bg-gradient-to-br from-emerald-500 to-teal-600 hover:-translate-y-1">
-                <button onclick="toggleMenu(3)" class="w-full min-h-[130px] md:min-h-[150px] group p-4 md:p-5 flex items-center gap-4 md:gap-5 focus:outline-none rounded-2xl text-left active:scale-[0.98] transition-transform">
-                    <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
-                        <i data-lucide="briefcase" class="w-6 h-6 stroke-2"></i>
+            <!-- KAD 3: Pegawai Penilai -->
+            <div id="card-3" class="menu-card w-full flex flex-col rounded-2xl shadow-sm hover:shadow-md border border-slate-200/60 bg-gradient-to-br from-emerald-600 to-teal-700 hover:-translate-y-1 transition-all duration-300">
+                <button onclick="toggleMenu(3)" class="w-full min-h-[120px] group p-5 flex items-center gap-4 text-left focus:outline-none rounded-2xl">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-105 transition-transform duration-300 shadow-inner backdrop-blur-sm">
+                        <i data-lucide="briefcase" class="w-5 h-5 stroke-2"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-base md:text-lg font-bold text-white group-hover:text-white/90 transition-colors drop-shadow-sm">Pegawai Penilai</h3>
-                        <p class="text-xs md:text-sm text-white/90 mt-1 leading-snug font-medium">Ruangan khusus untuk Pegawai Penilai (PP) menyemak dan melaksanakan penilaian.</p>
+                        <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Pegawai Penilai</h3>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Ruangan khusus untuk PP menyimpan semua dokumen penilaian. Hanya boleh diakses oleh PP sahaja</p>
                     </div>
-                    <div class="text-white/80 shrink-0 group-hover:text-white transition-colors">
+                    <div class="text-white/80 shrink-0">
                         <i id="chevron-3" data-lucide="chevron-right" class="w-5 h-5 transform transition-transform duration-300"></i>
                     </div>
                 </button>
-                <!-- Dropdown -->
-                <div id="menu-3" class="overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0">
-                    <div class="px-2 md:px-3 pb-3">
-                        <div class="glass-panel rounded-xl shadow-inner p-1 md:p-2">
-                            <ul class="space-y-1" id="list-3">
-                                <!-- JS will populate this -->
-                            </ul>
+                <div id="menu-3" class="overflow-hidden transition-all duration-300 max-h-0 opacity-0">
+                    <div class="px-3 pb-3">
+                        <div class="glass-panel rounded-xl shadow-inner p-1.5">
+                            <ul class="space-y-0.5" id="list-3"></ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MENU 4: Senarai PP dan PYD -->
-            <div class="w-full flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 bg-gradient-to-br from-amber-500 to-orange-500 hover:-translate-y-1">
-                <button onclick="window.open('https://drive.google.com/file/d/1b8mG1XuN38mt6VeyUrA_4hGTbRqRbizz/view?usp=sharing', '_blank')" class="w-full min-h-[130px] md:min-h-[150px] group p-4 md:p-5 flex items-center gap-4 md:gap-5 focus:outline-none rounded-2xl text-left active:scale-[0.98] transition-transform">
-                    <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
-                        <i data-lucide="users" class="w-6 h-6 stroke-2"></i>
+            <!-- KAD 4: Senarai PP dan PYD -->
+            <div id="card-4" class="menu-card w-full flex flex-col rounded-2xl shadow-sm hover:shadow-md border border-slate-200/60 bg-gradient-to-br from-amber-500 to-orange-600 hover:-translate-y-1 transition-all duration-300">
+                <button onclick="window.open('https://drive.google.com/file/d/1b8mG1XuN38mt6VeyUrA_4hGTbRqRbizz/view?usp=sharing', '_blank')" class="w-full min-h-[120px] group p-5 flex items-center gap-4 text-left focus:outline-none rounded-2xl">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-105 transition-transform duration-300 shadow-inner backdrop-blur-sm">
+                        <i data-lucide="users" class="w-5 h-5 stroke-2"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-base md:text-lg font-bold text-white group-hover:text-white/90 transition-colors drop-shadow-sm">Senarai PP dan PYD</h3>
-                        <p class="text-xs md:text-sm text-white/90 mt-1 leading-snug font-medium">Senarai rasmi pemadanan Pegawai Penilai dan Pegawai Yang Dinilai tahun semasa.</p>
+                        <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Senarai PP dan PYD</h3>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Akses kepada senarai PP dan PYD yang dicetak dari e-prestasi dan disahkan oleh pengerusi</p>
                     </div>
-                    <div class="text-white/80 shrink-0 group-hover:text-white transition-colors">
-                        <i data-lucide="external-link" class="w-5 h-5"></i>
+                    <div class="text-white/80 shrink-0">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
                     </div>
                 </button>
             </div>
 
-            <!-- MENU 5: Dokumen Rujukan -->
-            <div class="w-full flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 bg-gradient-to-br from-rose-500 to-red-600 hover:-translate-y-1">
-                <button onclick="window.open('https://drive.google.com/drive/folders/1HRshi_1PCwutlv3Qp94AgxiyCKn2cVFj?usp=sharing', '_blank')" class="w-full min-h-[130px] md:min-h-[150px] group p-4 md:p-5 flex items-center gap-4 md:gap-5 focus:outline-none rounded-2xl text-left active:scale-[0.98] transition-transform">
-                    <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
-                        <i data-lucide="file-text" class="w-6 h-6 stroke-2"></i>
+            <!-- KAD 5: Dokumen Rujukan -->
+            <div id="card-5" class="menu-card w-full flex flex-col rounded-2xl shadow-sm hover:shadow-md border border-slate-200/60 bg-gradient-to-br from-rose-500 to-red-600 hover:-translate-y-1 transition-all duration-300">
+                <button onclick="window.open('https://drive.google.com/drive/folders/1HRshi_1PCwutlv3Qp94AgxiyCKn2cVFj?usp=sharing', '_blank')" class="w-full min-h-[120px] group p-5 flex items-center gap-4 text-left focus:outline-none rounded-2xl">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
+                        <i data-lucide="file-text" class="w-5 h-5 stroke-2"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-base md:text-lg font-bold text-white group-hover:text-white/90 transition-colors drop-shadow-sm">Dokumen Rujukan</h3>
-                        <p class="text-xs md:text-sm text-white/90 mt-1 leading-snug font-medium">Kompilasi manual pengguna, instrumen penilaian, dan garis panduan rasmi KPM.</p>
+                        <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Dokumen Rujukan</h3>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Akses kepada Garis Panduan Instrumen, Panduan PP, Garis Panduan Komponen Keberhasilan dan lain-lain yang berkaitan</p>
                     </div>
-                    <div class="text-white/80 shrink-0 group-hover:text-white transition-colors">
-                        <i data-lucide="external-link" class="w-5 h-5"></i>
+                    <div class="text-white/80 shrink-0">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
                     </div>
                 </button>
             </div>
 
-            <!-- MENU 6: Sistem ePrestasi -->
-            <div class="w-full flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 bg-gradient-to-br from-cyan-500 to-blue-500 hover:-translate-y-1">
-                <button onclick="window.open('https://eprestasi.moe.gov.my/', '_blank')" class="w-full min-h-[130px] md:min-h-[150px] group p-4 md:p-5 flex items-center gap-4 md:gap-5 focus:outline-none rounded-2xl text-left active:scale-[0.98] transition-transform">
-                    <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-110 transition-transform duration-300 shadow-inner backdrop-blur-sm">
-                        <i data-lucide="globe" class="w-6 h-6 stroke-2"></i>
+            <!-- KAD 6: Sistem ePrestasi -->
+            <div id="card-6" class="menu-card w-full flex flex-col rounded-2xl shadow-sm hover:shadow-md border border-slate-200/60 bg-gradient-to-br from-cyan-500 to-blue-600 hover:-translate-y-1 transition-all duration-300">
+                <button onclick="window.open('https://eprestasi.moe.gov.my/', '_blank')" class="w-full min-h-[120px] group p-5 flex items-center gap-4 text-left focus:outline-none rounded-2xl">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-white/20 text-white group-hover:scale-105 transition-transform duration-300 shadow-inner backdrop-blur-sm">
+                        <i data-lucide="globe" class="w-5 h-5 stroke-2"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-base md:text-lg font-bold text-white group-hover:text-white/90 transition-colors drop-shadow-sm">Sistem ePrestasi</h3>
-                        <p class="text-xs md:text-sm text-white/90 mt-1 leading-snug font-medium">Pautan pantas log masuk ke portal rasmi ePrestasi Kementerian Pendidikan Malaysia.</p>
+                        <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Sistem ePrestasi</h3>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Pautan pantas akses log masuk ke portal sistem ePrestasi Kementerian Pendidikan Malaysia.</p>
                     </div>
-                    <div class="text-white/80 shrink-0 group-hover:text-white transition-colors">
-                        <i data-lucide="external-link" class="w-5 h-5"></i>
+                    <div class="text-white/80 shrink-0">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
                     </div>
                 </button>
             </div>
 
         </div>
 
-        <!-- Footer -->
-        <div class="mt-12 md:mt-16 text-center text-slate-400 text-xs md:text-sm">
-            <p id="copyright-year">© 2024 SKPK Miri. Hak Cipta Terpelihara.</p>
-        </div>
-
+        <!-- Kaki Halaman (Footer) -->
+        <footer class="mt-16 text-center text-slate-400 text-xs md:text-sm">
+            <p id="copyright-year">© 2026 SKPK Miri. Hak Cipta Terpelihara.</p>
+        </footer>
     </div>
 
-    <!-- Modal Rekod Penyerahan Dokumen (Item 8 & 9) -->
-    <div id="rekod-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 hidden backdrop-blur-sm transition-opacity opacity-0 overflow-hidden p-0 sm:p-4 md:pt-10 md:pb-10 md:px-4">
-        <div class="bg-white w-full h-full sm:h-auto max-w-5xl sm:rounded-xl shadow-2xl flex flex-col relative max-h-full">
-            <div class="p-3 md:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
-                <h2 id="modal-header-title" class="text-base md:text-xl font-bold text-slate-800 pr-4 leading-tight">Modul Rekod Penyerahan Borang</h2>
-                <button onclick="closeRekodModal()" class="text-slate-500 hover:text-red-500 transition-colors p-2 bg-slate-200/50 rounded-full md:bg-transparent">
-                    <i data-lucide="x" class="w-5 h-5 md:w-6 md:h-6"></i>
-                </button>
-            </div>
-            
-            <div class="p-0 sm:p-4 md:p-8 overflow-y-auto flex-1 bg-gray-100/50">
-                <div id="pdf-wrapper" class="bg-white shadow-sm border border-slate-200 w-full overflow-hidden">
-                    <div id="pdf-content" class="p-2 sm:p-4 md:p-10 w-full">
-                        <h3 id="pdf-main-title" class="text-center font-bold text-sm md:text-xl mb-4 md:mb-8 uppercase text-black leading-snug px-2">REKOD PP MENYERAHKAN SALINAN BORANG KEPADA PYD</h3>
-                        
-                        <div class="overflow-x-auto table-container w-full pb-2">
-                            <table class="w-full min-w-[750px] border-collapse border border-black text-xs md:text-sm text-black">
-                                <thead>
-                                    <tr class="bg-gray-50">
-                                        <th class="border border-black p-1 md:p-3 w-8 md:w-12 text-center align-middle" rowspan="2">BIL</th>
-                                        <th class="border border-black p-2 md:p-3 min-w-[150px] md:min-w-[180px] align-middle sticky-header-mobile sticky-shadow bg-gray-50 text-left" rowspan="2">NAMA PYD</th>
-                                        <th id="pdf-col-title" class="border border-black p-2 md:p-3 text-center" colspan="2">BORANG<br><span class="font-normal text-[10px] md:text-xs">TARIKH/ TANDATANGAN</span></th>
-                                        <th class="border border-black p-2 md:p-3 min-w-[120px] md:min-w-[150px]" rowspan="2">CATATAN</th>
-                                        <th class="border border-black p-2 md:p-3 w-16 md:w-20 text-center no-print-col bg-slate-100" rowspan="2">TINDAKAN</th>
-                                    </tr>
-                                    <tr class="bg-gray-50">
-                                        <th class="border border-black p-2 text-center w-[100px] md:w-40">PP1</th>
-                                        <th class="border border-black p-2 text-center w-[100px] md:w-40">PP2</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="rekod-tbody">
-                                    <!-- Dynamic Rows -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-3 md:p-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between gap-3 bg-white shrink-0">
-                <button onclick="addRow()" class="w-full sm:w-auto px-5 py-3 md:py-2.5 bg-blue-50 text-blue-600 hover:bg-blue-100 active:bg-blue-200 font-semibold rounded-lg transition-colors flex justify-center items-center gap-2">
-                    <i data-lucide="plus-circle" class="w-5 h-5"></i> Tambah Baris
-                </button>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="closeRekodModal()" class="w-full sm:w-auto px-5 py-3 md:py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-300 font-semibold rounded-lg transition-colors order-2 sm:order-1">
-                        Tutup
-                    </button>
-                    <button onclick="exportPDF()" class="w-full sm:w-auto px-5 py-3 md:py-2.5 bg-red-600 text-white hover:bg-red-700 active:bg-red-800 font-semibold rounded-lg transition-colors flex justify-center items-center gap-2 shadow-lg shadow-red-600/20 order-1 sm:order-2">
-                        <i data-lucide="file-down" class="w-5 h-5"></i> <span class="hidden sm:inline">Cetak /</span> Muat Turun PDF
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Jadual Penjajaran Masa Penilaian (Item 10 Khusus) -->
-    <div id="jadual-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 hidden backdrop-blur-sm transition-opacity opacity-0 overflow-hidden p-0 sm:p-4 md:pt-10 md:pb-10 md:px-4">
-        <div class="bg-white w-full h-full sm:h-auto max-w-6xl sm:rounded-xl shadow-2xl flex flex-col relative max-h-full">
-            <div class="p-3 md:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
-                <h2 class="text-base md:text-xl font-bold text-slate-800 pr-4 leading-tight">Modul Jadual Penjajaran Masa Penilaian</h2>
-                <button onclick="closeJadualModal()" class="text-slate-500 hover:text-red-500 transition-colors p-2 bg-slate-200/50 rounded-full md:bg-transparent">
-                    <i data-lucide="x" class="w-5 h-5 md:w-6 md:h-6"></i>
-                </button>
-            </div>
-            
-            <div class="p-0 sm:p-4 md:p-8 overflow-y-auto flex-1 bg-gray-100/50">
-                <div id="pdf-wrapper-jadual" class="bg-white shadow-sm border border-slate-200 w-full overflow-hidden">
-                    <div id="pdf-content-jadual" class="p-2 sm:p-4 md:p-8 w-full">
-                        <h3 class="text-center font-bold text-xs md:text-lg mb-4 md:mb-8 uppercase text-black leading-snug px-2">SALINAN JADUAL/ PERANCANGAN PENJAJARAN MASA PENILAIAN OLEH PP</h3>
-                        
-                        <!-- Table Container -->
-                        <div class="overflow-x-auto table-container w-full pb-4">
-                            <table class="w-full min-w-[950px] md:min-w-[1200px] border-collapse border border-black text-xs md:text-sm text-black">
-                                <thead>
-                                    <tr class="bg-gray-50">
-                                        <th class="border border-black p-1 md:p-3 w-8 md:w-10 text-center align-middle" rowspan="2">BIL</th>
-                                        <th class="border border-black p-2 md:p-3 min-w-[150px] md:min-w-[200px] align-middle text-left sticky-header-mobile sticky-shadow bg-gray-50" rowspan="2">NAMA PYD</th>
-                                        <th class="border border-black p-2 text-center" colspan="8">AKTIVITI/ TARIKH</th>
-                                        <th class="border border-black p-2 md:p-3 w-[65px] md:w-20 text-center align-middle no-print-col bg-slate-100" rowspan="2">TINDAKAN</th>
-                                    </tr>
-                                    <tr class="bg-gray-50">
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Bincang Penetapan<br>Keberhasilan</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Pencerapan 1</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Pementoran/<br>Pencerapan 1</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Penilaian<br>Keberhasilan 1</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Key in skor<br>Penilaian 1 (ePrestasi)</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Pementoran/<br>Perbincangan 2</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-[11px] md:text-xs">Semakan Semula<br>Keberhasilan</span>
-                                        </th>
-                                        <th class="border border-black p-1 md:p-2 h-[120px] md:h-48 align-bottom text-center w-[75px] md:w-[100px]">
-                                            <span class="vertical-text inline-block mb-1 md:mb-2 font-semibold text-center text-[11px] md:text-xs">Catatan</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="jadual-tbody">
-                                    <!-- Dynamic Rows For Jadual -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-3 md:p-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between gap-3 bg-white shrink-0">
-                <button onclick="addJadualRow()" class="w-full sm:w-auto px-5 py-3 md:py-2.5 bg-blue-50 text-blue-600 hover:bg-blue-100 active:bg-blue-200 font-semibold rounded-lg transition-colors flex justify-center items-center gap-2">
-                    <i data-lucide="plus-circle" class="w-5 h-5"></i> Tambah Baris
-                </button>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="closeJadualModal()" class="w-full sm:w-auto px-5 py-3 md:py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-300 font-semibold rounded-lg transition-colors order-2 sm:order-1">
-                        Tutup
-                    </button>
-                    <button onclick="exportJadualPDF()" class="w-full sm:w-auto px-5 py-3 md:py-2.5 bg-red-600 text-white hover:bg-red-700 active:bg-red-800 font-semibold rounded-lg transition-colors flex justify-center items-center gap-2 shadow-lg shadow-red-600/20 order-1 sm:order-2">
-                        <i data-lucide="file-down" class="w-5 h-5"></i> <span class="hidden sm:inline">Cetak /</span> Muat Turun PDF
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Signature Pad -->
-    <div id="sig-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 hidden opacity-0 transition-opacity p-4">
-        <div class="bg-white p-5 md:p-6 rounded-xl w-full max-w-md flex flex-col items-center">
-            <div class="w-full flex justify-between items-center mb-4">
-                <h3 class="font-bold text-lg text-slate-800">Ruangan Tandatangan</h3>
-                <button onclick="closeSignaturePad()" class="text-slate-400 p-1">
+    <!-- ======================================================= -->
+    <!-- MODAL 1: MODUL REKOD PENYERAHAN BORANG (ITEM 8 & 9)       -->
+    <!-- ======================================================= -->
+    <div id="rekod-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 hidden backdrop-blur-sm transition-opacity opacity-0 overflow-hidden p-0 sm:p-4">
+        <div class="bg-white w-full h-full sm:h-auto max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col relative max-h-[96vh]">
+            <div class="p-4 md:p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                <h2 id="modal-header-title" class="text-sm md:text-base font-bold text-slate-800 leading-tight"></h2>
+                <button onclick="closeRekodModal()" class="text-slate-500 hover:text-red-500 transition-colors p-1.5 bg-slate-200/60 rounded-full sm:bg-transparent">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
             
-            <!-- Canvas Wrapper -->
-            <div class="border-2 border-dashed border-slate-300 rounded-lg overflow-hidden bg-slate-50 w-full relative touch-none">
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                    <span class="text-lg font-bold uppercase tracking-widest text-center px-4">Tandatangan Di Sini</span>
+            <div class="p-3 md:p-6 overflow-y-auto flex-1 bg-slate-100/50">
+                <div id="pdf-wrapper" class="bg-white shadow-sm border border-slate-300 rounded-xl w-full overflow-hidden">
+                    <div id="pdf-content" class="p-3 sm:p-6 md:p-8 w-full">
+                        <h3 id="pdf-main-title" class="text-center font-bold text-sm md:text-base mb-6 uppercase text-black leading-snug">REKOD PP MENYERAHKAN SALINAN BORANG SKOR KEPADA PYD</h3>
+                        
+                        <div class="overflow-x-auto table-container w-full pb-2">
+                            <table class="w-full min-w-[750px] border-collapse border border-black text-xs text-black">
+                                <thead>
+                                    <tr class="bg-slate-100">
+                                        <th class="border border-black p-2 w-10 text-center align-middle" rowspan="2">BIL</th>
+                                        <th class="border border-black p-2 min-w-[240px] md:min-w-[280px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
+                                        <th id="pdf-col-title" class="border border-black p-2 text-center" colspan="2">TARIKH & TANDATANGAN PENYERAHAN</th>
+                                        <th class="border border-black p-2 min-w-[150px] align-middle text-left" rowspan="2">CATATAN</th>
+                                        <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
+                                    </tr>
+                                    <tr class="bg-slate-50">
+                                        <th class="border border-black p-2 text-center w-[160px]">BORANG PP1</th>
+                                        <th class="border border-black p-2 text-center w-[160px]">BORANG PP2</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rekod-tbody">
+                                    <!-- Baris dinamik akan dijanakan melalui Javascript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <canvas id="sig-canvas" class="w-full h-[250px] touch-none cursor-crosshair relative z-10"></canvas>
             </div>
             
-            <div class="flex gap-2 sm:gap-3 mt-5 w-full">
-                <button onclick="clearSignature()" class="flex-1 py-3 sm:py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 active:bg-amber-300 font-medium rounded-lg transition-colors">
-                    Padam
+            <div class="p-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-3 bg-white shrink-0 rounded-b-2xl">
+                <button onclick="addRow()" class="w-full sm:w-auto px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 active:scale-95 font-semibold rounded-xl transition-all flex justify-center items-center gap-2 text-xs md:text-sm">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah PYD
                 </button>
-                <button onclick="saveSignature()" class="flex-[2] py-3 sm:py-2 bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 font-medium rounded-lg transition-colors shadow-lg shadow-emerald-500/30">
-                    Simpan & Sahkan
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button onclick="closeRekodModal()" class="w-full sm:w-auto px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold rounded-xl transition-colors text-xs md:text-sm order-2 sm:order-1">
+                        Batal
+                    </button>
+                    <button onclick="exportPDF()" class="w-full sm:w-auto px-4 py-2 bg-red-600 text-white hover:bg-red-700 font-semibold rounded-xl transition-all flex justify-center items-center gap-2 shadow-sm order-1 sm:order-2 text-xs md:text-sm">
+                        <i data-lucide="file-down" class="w-4 h-4"></i> Muat Turun PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- MODAL 2: JADUAL PENJAJARAN MASA PENILAIAN (ITEM 10)       -->
+    <!-- ======================================================= -->
+    <div id="jadual-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 hidden backdrop-blur-sm transition-opacity opacity-0 overflow-hidden p-0 sm:p-4">
+        <div class="bg-white w-full h-full sm:h-auto max-w-6xl sm:rounded-2xl shadow-2xl flex flex-col relative max-h-[96vh]">
+            <div class="p-4 md:p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                <h2 class="text-sm md:text-base font-bold text-slate-800 leading-tight"></h2>
+                <button onclick="closeJadualModal()" class="text-slate-500 hover:text-red-500 transition-colors p-1.5 bg-slate-200/60 rounded-full sm:bg-transparent">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="p-3 md:p-6 overflow-y-auto flex-1 bg-slate-100/50">
+                <div id="pdf-wrapper-jadual" class="bg-white shadow-sm border border-slate-300 rounded-xl w-full overflow-hidden">
+                    <div id="pdf-content-jadual" class="p-3 sm:p-6 md:p-8 w-full">
+                        <h3 class="text-center font-bold text-sm md:text-base mb-6 uppercase text-black leading-snug">SALINAN JADUAL / PERANCANGAN PENJAJARAN MASA PENILAIAN OLEH PP</h3>
+                        
+                        <div class="overflow-x-auto table-container w-full pb-2">
+                            <table class="w-full min-w-[1300px] border-collapse border border-black text-xs text-black">
+                                <thead>
+                                    <tr class="bg-slate-100">
+                                        <th class="border border-black p-2 w-10 text-center align-middle" rowspan="2">BIL</th>
+                                        <th class="border border-black p-2 min-w-[180px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
+                                        <th class="border border-black p-2 text-center" colspan="7">AKTIVITI / PERANCANGAN TARIKH PENILAIAN</th>
+                                        <th class="border border-black p-2 min-w-[150px] align-middle text-left" rowspan="2">CATATAN KHAS</th>
+                                        <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
+                                    </tr>
+                                    <tr class="bg-slate-50">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Bincang Penetapan Keberhasilan</span>
+                                        </th>
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pencerapan 1</span>
+                                        </th>
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pementoran / Pencerapan 1</span>
+                                        </th>
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Penilaian Keberhasilan 1</span>
+                                        </th>
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Key-in Skor P1 (ePrestasi)</span>
+                                        </th>
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pementoran / Perbincangan 2</span>
+                                        </th>
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                            <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Semakan Semula Keberhasilan</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="jadual-tbody">
+                                    <!-- Baris jadual dinamik akan dijanakan melalui Javascript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-3 bg-white shrink-0 rounded-b-2xl">
+                <button onclick="addJadualRow()" class="w-full sm:w-auto px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 active:scale-95 font-semibold rounded-xl transition-all flex justify-center items-center gap-2 text-xs md:text-sm">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah Jadual PYD
+                </button>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button onclick="closeJadualModal()" class="w-full sm:w-auto px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold rounded-xl transition-colors text-xs md:text-sm order-2 sm:order-1">
+                        Batal
+                    </button>
+                    <button onclick="exportJadualPDF()" class="w-full sm:w-auto px-4 py-2 bg-red-600 text-white hover:bg-red-700 font-semibold rounded-xl transition-all flex justify-center items-center gap-2 shadow-sm order-1 sm:order-2 text-xs md:text-sm">
+                        <i data-lucide="file-down" class="w-4 h-4"></i> Muat Turun PDF Jadual
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- MODAL SUBSISTEM: SKRIN PAD TANDATANGAN DIGITAL          -->
+    <!-- ======================================================= -->
+    <div id="sig-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/70 hidden backdrop-blur-sm transition-opacity opacity-0 p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="pen-tool" class="w-4 h-4 text-blue-600"></i>
+                    <h3 class="text-sm font-bold text-slate-800">Sahkan Tandatangan Digital</h3>
+                </div>
+                <button onclick="closeSignaturePad()" class="text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-5 bg-slate-100 flex flex-col items-center justify-center">
+                <p class="text-xs text-slate-500 mb-3 self-start font-medium">Sila turunkan tandatangan anda di dalam kotak kosong bawah:</p>
+                <div class="w-full bg-white border-2 border-dashed border-slate-300 rounded-xl overflow-hidden shadow-inner h-48 relative">
+                    <canvas id="sig-canvas" class="w-full h-full cursor-crosshair"></canvas>
+                </div>
+            </div>
+            <div class="px-4 py-3 bg-slate-50 border-t border-slate-200 flex justify-between gap-3">
+                <button onclick="clearSignature()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition-colors text-xs">
+                    Padam Semua
+                </button>
+                <button onclick="saveSignature()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-all text-xs shadow-md shadow-emerald-600/10">
+                    Sahkan Dokumen
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Pemasangan Firebase SDK & Logik Live-Sync -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-        
-        // Konfigurasi Asal Anda
-        const firebaseConfig = {
-            apiKey: "AIzaSyBZAjRF2Z485rjd-Y3qGzBKsUi8RY1MX6s",
-            authDomain: "epbppp-7c6ed.firebaseapp.com",
-            projectId: "epbppp-7c6ed",
-            storageBucket: "epbppp-7c6ed.firebasestorage.app",
-            messagingSenderId: "79520569133",
-            appId: "1:79520569133:web:c008295f48bc83e066a5a4",
-            measurementId: "G-EW5TQL8N7V"
-        };
+    <!-- ======================================================= -->
+    <!-- NOTIFIKASI TOAST (SISTEM PREMIUM ANTI-ALERT)            -->
+    <!-- ======================================================= -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2"></div>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        // Dedahkan kepada skrip di bawah
-        window.db = db;
-
-        // Log Masuk secara anonim untuk keselamatan Rules Firebase
-        signInAnonymously(auth).catch((error) => console.error("Ralat Log Masuk:", error));
-
-        // Fungsi Menyimpan Rekod / Teks Secara Berkumpulan (Dipanggil ketika butang Kemaskini Ditekan)
-        window.saveMultipleToFirebase = function(dataObj, type) {
-            if(!window.db) return;
-            const docRef = doc(window.db, 'pbppp_data', type);
-            setDoc(docRef, dataObj, { merge: true }).catch(err => console.error(err));
-        };
-
-        // Fungsi Menyimpan Tandatangan ke Database
-        window.saveSignToFirebase = function(key, value, type) {
-            if(!window.db) return;
-            const docRef = doc(window.db, 'pbppp_data', type);
-            setDoc(docRef, { [key]: value }, { merge: true }).catch(err => console.error(err));
-        };
-
-        // Fungsi Live-Sync: Membaca perubahan dan mengemaskini paparan semua orang (Real-time)
-        let currentUnsubscribe = null;
-        window.listenToFirebase = function(type) {
-            if(!window.db) return;
-            if(currentUnsubscribe) currentUnsubscribe(); // Hentikan pemantauan fail lama
-            
-            const docRef = doc(window.db, 'pbppp_data', type);
-            currentUnsubscribe = onSnapshot(docRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    let iconsNeeded = false;
-                    
-                    for (const [key, value] of Object.entries(data)) {
-                        // 1. Jika data adalah Tandatangan
-                        if (key.startsWith('sign_')) {
-                            const parts = key.split('_');
-                            const signType = parts[1]; // Cth: PP1, J1
-                            const rowId = parts[2];    // Cth: 1, 2, 3
-                            
-                            let target = document.getElementById(`sign-container-${signType}-${rowId}`);
-                            if (!target) target = document.getElementById(`cell-${signType}-${rowId}`);
-                            
-                            if (target && target.innerHTML !== value) {
-                                target.innerHTML = value;
-                                iconsNeeded = true;
-                            }
-                        } 
-                        // 2. Jika data adalah Teks/Tarikh
-                        else if (key.startsWith('input_')) {
-                            const el = document.getElementById(key);
-                            // Jangan kemaskini jika pengguna tersebut sedang menaip pada kotak tersebut
-                            if (el && el.value !== value && document.activeElement !== el) {
-                                el.value = value;
-                            }
-                        }
-                    }
-                    
-                    if (iconsNeeded) {
-                        setTimeout(() => { window.lucide.createIcons(); }, 50);
-                    }
-                }
-            });
-        };
-    </script>
-    
+    <!-- ======================================================= -->
+    <!-- JAVASCRIPT APLIKASI UTAMA                               -->
+    <!-- ======================================================= -->
     <script>
-        // 1. Initialize Icons
-        lucide.createIcons();
+        // Senarai Rasmi 32 Nama PYD Mengikut Urutan (1 - 32)
+        const SENARAI_PYD = [
+            "AZIZ BIN TAHIR",
+            "MOHAMAD ABIDIN BIN SIPEK",
+            "LING MEE CHOO",
+            "SALIHIN BIN AHMAD",
+            "WONG PICK KING",
+            "TING HUA EE",
+            "JACQUELINE TIONG HOE DING",
+            "NUR HIDAYU BINTI YUSOP",
+            "MOHD RAFEEQ BIN SULAIMAN",
+            "FAZRI BIN BAKERI",
+            "HILWA HAYATI BINTI MOHAMAD AJALAN",
+            "KHAIRI BIN SAHARI",
+            "SABARIAH BINTI SOLHI",
+            "BRYAN ANAK CONSTANT",
+            "JIMMY ANAK PETER",
+            "TING YU YONG",
+            "JERIAH ANAK SIMON",
+            "ZEPRINA ANAK BENIK",
+            "SYAEEZA LIANA BINTI RAMLI",
+            "HAIROL BIN ISMAIL",
+            "NURUL HUDA BTE MOHD IHWAN",
+            "MARY JANE AMOI UMPANG ANAK DANIEL",
+            "EIFILISIA AMBER ANAK MERVIN",
+            "AIDA MASTURINA BINTI HAMKA",
+            "AIFA NUR BESTARI BINTI RADUAN",
+            "NUR AZLIN BINTI NORIZAN",
+            "TENG RU YUN",
+            "VANITHA A/P SUBRAMANIAM",
+            "DLIYANA ANAK JOHN",
+            "MUHAMMAD ZULHUSAINI BIN ABDUL WAHAB",
+            "CHRISTIAN SIMON",
+            "NUR FADZLIAH AMAL BINTI OSMAN"
+        ];
 
-        function toggleBodyScroll(disable) {
-            if (disable) document.body.classList.add('no-scroll');
-            else document.body.classList.remove('no-scroll');
+        window.onload = function () {
+            initApp();
+        };
+
+        function initApp() {
+            updateClock();
+            setInterval(updateClock, 1000);
+            updateCopyrightYear();
+            populateMenuLists();
+            initSignaturePad();
         }
 
-        function padamRow(btn, tbodyId) {
-            const tr = btn.closest('tr');
-            tr.remove();
-            const tbody = document.getElementById(tbodyId);
-            const rows = tbody.querySelectorAll('tr');
-            rows.forEach((row, index) => {
-                row.cells[0].innerText = index + 1;
-            });
+        function updateClock() {
+            const clockDisplay = document.getElementById('clock-display');
+            if (!clockDisplay) return;
+            const kini = new Date();
+            const pilihan = { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false 
+            };
+            clockDisplay.textContent = kini.toLocaleDateString('ms-MY', pilihan).replace(/,/g, ' -');
         }
 
-        // Tindakan: Simpan/Kemaskini Baris + Sync ke Firebase
-        function kemaskiniRow(btn) {
-            const tr = btn.closest('tr');
-            const inputs = tr.querySelectorAll('input');
-            const dataToSave = {};
+        function updateCopyrightYear() {
+            const cpYear = document.getElementById('copyright-year');
+            if (cpYear) cpYear.textContent = `© ${new Date().getFullYear()} SKPK Miri. Hak Cipta Terpelihara.`;
+        }
+
+        function tunjukMesej(mesej, jenis = "success") {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-lg border text-xs font-semibold text-white transition-all transform translate-y-2 opacity-0 duration-300 ${
+                jenis === 'success' ? 'bg-emerald-600 border-emerald-500' : 'bg-red-600 border-red-500'
+            }`;
             
-            // Kumpul semua data input di dalam barisan ini
-            inputs.forEach(input => {
-                if(input.id) {
-                    dataToSave[input.id] = input.value;
-                }
-            });
-
-            // Simpan ke Firebase
-            if(Object.keys(dataToSave).length > 0 && window.saveMultipleToFirebase) {
-                window.saveMultipleToFirebase(dataToSave, currentModalType);
-            }
-
-            // Visual Feedback (Berjaya)
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 md:w-3 md:h-3 sm:mr-1"></i> <span class="hidden sm:inline">Dikemaskini</span>`;
-            btn.classList.remove('bg-blue-100', 'text-blue-700', 'hover:bg-blue-200', 'active:bg-blue-300');
-            btn.classList.add('bg-green-100', 'text-green-700');
+            const ikon = jenis === 'success' ? 'check-circle' : 'alert-circle';
+            toast.innerHTML = `
+                <i data-lucide="${ikon}" class="w-4 h-4 shrink-0"></i>
+                <span>${mesej}</span>
+            `;
+            
+            container.appendChild(toast);
             lucide.createIcons();
             
+            // Animasi masuk
             setTimeout(() => {
-                btn.innerHTML = originalHtml;
-                btn.classList.remove('bg-green-100', 'text-green-700');
-                btn.classList.add('bg-blue-100', 'text-blue-700', 'hover:bg-blue-200', 'active:bg-blue-300');
-                lucide.createIcons();
-            }, 1500);
-        }
-
-        // 2. Clock Logic
-        function updateClock() {
-            const date = new Date();
-            const days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
-            const months = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
-
-            const dayName = days[date.getDay()];
-            const day = date.getDate();
-            const monthName = months[date.getMonth()];
-            const year = date.getFullYear();
-
-            let hours = date.getHours();
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-            const ampm = hours >= 12 ? 'PTG' : 'PG';
-
-            hours = hours % 12;
-            hours = hours ? hours : 12; 
-            const strTime = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
-
-            document.getElementById('clock-display').innerText = `${dayName}, ${day} ${monthName} ${year} | ${strTime}`;
-            document.getElementById('copyright-year').innerText = `© ${year} SKPK Miri. Hak Cipta Terpelihara.`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 3. Dropdown Data & Logic
-        const menu1Items = [
-            { title: '1. Fail Pengurusan PBPPP (Fail Terperingkat)', link: '#' },
-            { title: '2. Surat Arahan Pelaksanaan PBPPP', link: 'https://drive.google.com/file/d/11-uEEi3PDU77XJjCbGuNS5FwS4I4E-Lf/view?usp=sharing' },
-            { title: '3. Senarai nama Jawatankuasa PBPPP organisasi', link: 'https://drive.google.com/file/d/1SobLcXEujlyo9EKZCwZ1jRIKvwNNAGGw/view?usp=sharing' },
-            { title: '4. Surat Panggilan dan minit Mesyuarat Jawatankuasa', link: 'https://drive.google.com/file/d/1O4d3oxuiZULWjuw3z61L1E_d5urOUwFL/view?usp=sharing' },
-            { title: '5. Rekod pemakluman pelaksanaan PBPPP', link: 'https://drive.google.com/file/d/1Bc7QCHUOMYXAqVzEJk9lnmN5mpE4vIHq/view?usp=sharing' },
-            { title: '6. Borang Pemantauan PBPPP (jika ada)', link: 'https://drive.google.com/file/d/1ePWmy_TqzW-JFsC7oO96rZpWaUw7A_Hf/view?usp=sharing' },
-            { title: '7. Senarai PYD dan PP yang dicetak dari e-Prestasi', link: 'https://drive.google.com/file/d/1b8mG1XuN38mt6VeyUrA_4hGTbRqRbizz/view?usp=sharing' },
-            { title: '8. Rekod PP menyerahkan salinan Borang Skor kepada PYD', link: '#', action: "openRekodModal('SKOR')" },
-            { title: '9. Rekod PP menyerahkan salinan Borang Keberhasilan kepada PYD', link: '#', action: "openRekodModal('KEBERHASILAN')" },
-            { title: '10. Salinan jadual/perancangan penjajaran masa penilaian', link: '#', action: "openJadualModal()" },
-            { title: '11. Bukti PP dibekalkan instrumen/panduan PBPPP dll.', link: 'https://drive.google.com/file/d/1VOJdwU8nDVNaOFvg0JW3CLrKd6rZSbZF/view?usp=sharing' },
-            { title: '12. Surat panggilan & minit mesyuarat pelarasan markah', link: 'https://drive.google.com/file/d/10BZz2pVE9fsTgFxeZcyseRChwdqO8y98/view?usp=sharing' }
-        ];
-
-        const menu3Items = [
-            { title: 'Aziz bin Tahir', link: 'https://drive.google.com/drive/folders/1zJmivTr5zt5mvv4tafp7A8Lz9VT_8-lA?usp=sharing' },
-            { title: 'Mohamad Abidin bin Sipek', link: 'https://drive.google.com/drive/folders/14UrXk60RCrI8-wBBzLXmajTKrLuIvlI8?usp=sharing' },
-            { title: 'Ling Mee Choo', link: 'https://drive.google.com/drive/folders/1yZDwH0fci1--qYTIvRk46BZhXBj78cyA?usp=sharing' },
-            { title: 'Salihin bin Ahmad', link: 'https://drive.google.com/drive/folders/1GNRJ5scCTrJHtUMHKZlbPA11tjBnHrpF?usp=sharing' },
-            { title: 'Nur Hidayu binti Yusop', link: 'https://drive.google.com/drive/folders/1eCKYws9yWfNEcKEq8piDU3vXbFcDEhrP?usp=sharing' }
-        ];
-
-        function populateList(listId, items, iconName, hoverColorClass, iconHoverColorClass) {
-            const listEl = document.getElementById(listId);
-            items.forEach(item => {
-                const li = document.createElement('li');
-                const onclickAttr = item.action ? `onclick="${item.action}; event.preventDefault();"` : '';
-                li.innerHTML = `
-                    <a href="${item.link}" target="${item.link !== '#' ? '_blank' : '_self'}" ${onclickAttr} class="w-full block px-3 md:px-4 py-3 md:py-3 rounded-lg bg-transparent hover:bg-slate-100 active:bg-slate-200 text-slate-700 hover:${hoverColorClass} text-xs md:text-sm font-semibold transition-colors flex items-start justify-between group/item">
-                        <div class="flex items-start gap-2 md:gap-3 pr-4">
-                            <i data-lucide="${iconName}" class="w-4 h-4 text-slate-400 group-hover/item:${iconHoverColorClass} transition-colors shrink-0 mt-0.5"></i>
-                            <span class="leading-snug">${item.title}</span>
-                        </div>
-                        <i data-lucide="external-link" class="w-4 h-4 text-slate-300 opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0 mt-0.5"></i>
-                    </a>
-                `;
-                listEl.appendChild(li);
-            });
-        }
-
-        populateList('list-1', menu1Items, 'file-text', 'text-blue-700', 'text-blue-500');
-        populateList('list-3', menu3Items, 'user', 'text-teal-700', 'text-teal-500');
-        lucide.createIcons();
-
-        let activeMenu = null;
-        function toggleMenu(menuId) {
-            const menus = [1, 3];
-            menus.forEach(id => {
-                const menuEl = document.getElementById(`menu-${id}`);
-                const cardEl = document.getElementById(`card-${id}`);
-                const chevronEl = document.getElementById(`chevron-${id}`);
-                
-                if (id === menuId && activeMenu !== menuId) {
-                    menuEl.classList.remove('max-h-0', 'opacity-0');
-                    menuEl.classList.add('max-h-[1500px]', 'opacity-100');
-                    cardEl.classList.add('ring-2', 'md:ring-4', 'ring-white/30', 'md:scale-[1.02]', 'z-10');
-                    cardEl.classList.remove('hover:-translate-y-1');
-                    chevronEl.classList.add('rotate-90');
-                } else {
-                    menuEl.classList.remove('max-h-[1500px]', 'opacity-100');
-                    menuEl.classList.add('max-h-0', 'opacity-0');
-                    cardEl.classList.remove('ring-2', 'md:ring-4', 'ring-white/30', 'md:scale-[1.02]', 'z-10');
-                    cardEl.classList.add('hover:-translate-y-1');
-                    chevronEl.classList.remove('rotate-90');
-                }
-            });
-            activeMenu = activeMenu === menuId ? null : menuId;
-        }
-
-        // --- Logik Tandatangan ---
-        let signaturePad = null;
-        let currentSignTarget = null; 
-
-        document.addEventListener("touchmove", function(e) {
-            if (e.target && e.target.id === 'sig-canvas') {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        function openSignaturePad(rowId, type) {
-            currentSignTarget = { rowId, type };
-            const modal = document.getElementById('sig-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-            
-            setTimeout(() => {
-                const canvas = document.getElementById('sig-canvas');
-                const rect = canvas.parentElement.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = 250;
-
-                if(!signaturePad) {
-                    signaturePad = new SignaturePad(canvas, {
-                        penColor: "rgb(0, 0, 0)",
-                        backgroundColor: "rgb(248, 250, 252)", 
-                        minWidth: 1.5,
-                        maxWidth: 3
-                    });
-                } else {
-                    signaturePad.clear();
-                }
+                toast.classList.remove('translate-y-2', 'opacity-0');
             }, 50);
+
+            // Animasi keluar & padam
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
         }
 
-        function closeSignaturePad() {
-            const modal = document.getElementById('sig-modal');
+        function populateMenuLists() {
+            const list1 = document.getElementById('list-1');
+            const list3 = document.getElementById('list-3');
+
+            // Kandungan Fail Pengurusan (Menu 1 - 12 Item sepadan imej)
+            const kandungan1 = [
+                { nama: '1. Fail Pengurusan PBPPP (Fail Terperingkat)', url: 'https://drive.google.com/drive/folders/1ZVpagwoEX7O6NGSOxSSmELTVRVQEfoJb?usp=sharing', isModal: false },
+                { nama: '2. Surat Arahan Pelaksanaan PBPPP', url: 'https://drive.google.com/file/d/11-uEEi3PDU77XJjCbGuNS5FwS4I4E-Lf/view?usp=sharing', isModal: false },
+                { nama: '3. Senarai nama Jawatankuasa PBPPP organisasi', url: 'https://drive.google.com/file/d/1SobLcXEujlyo9EKZCwZ1jRIKvwNNAGGw/view?usp=sharing', isModal: false },
+                { nama: '4. Surat Panggilan dan minit Mesyuarat Jawatankuasa', url: 'https://drive.google.com/file/d/1O4d3oxuiZULWjuw3z61L1E_d5urOUwFL/view?usp=drive_link', isModal: false },
+                { nama: '5. Rekod pemakluman pelaksanaan PBPPP', url: 'https://drive.google.com/file/d/1Bc7QCHUOMYXAqVzEJk9lnmN5mpE4vIHq/view?usp=drive_link', isModal: false },
+                { nama: '6. Borang Pemantauan PBPPP (jika ada)', url: 'https://drive.google.com/file/d/1ePWmy_TqzW-JFsC7oO96rZpWaUw7A_Hf/view?usp=drive_link', isModal: false },
+                { nama: '7. Senarai PYD dan PP yang dicetak dari e-Prestasi', url: 'https://drive.google.com/file/d/1b8mG1XuN38mt6VeyUrA_4hGTbRqRbizz/view?usp=drive_link', isModal: false },
+                { nama: '8. Rekod PP menyerahkan salinan Borang Skor kepada PYD', aksi: 'openRekodModal(1)', isModal: true },
+                { nama: '9. Rekod PP menyerahkan salinan Borang Keberhasilan kepada PYD', aksi: 'openRekodModal(2)', isModal: true },
+                { nama: '10. Salinan jadual/perancangan penjajaran masa penilaian', aksi: 'openJadualModal()', isModal: true },
+                { nama: '11. Bukti PP dibekalkan instrumen/panduan PBPPP dll.', url: 'https://drive.google.com/file/d/1VOJdwU8nDVNaOFvg0JW3CLrKd6rZSbZF/view?usp=drive_link', isModal: false },
+                { nama: '12. Surat panggilan & minit mesyuarat pelarasan markah', url: 'https://drive.google.com/file/d/10BZz2pVE9fsTgFxeZcyseRChwdqO8y98/view?usp=drive_link', isModal: false }
+            ];
+
+            // Kandungan Pegawai Penilai (Menu 3)
+            const kandungan3 = [
+                { nama: '1. AZIZ BIN TAHIR', url: 'https://drive.google.com/drive/folders/1zJmivTr5zt5mvv4tafp7A8Lz9VT_8-lA?usp=sharing' },
+                { nama: '2. MOHAMAD ABIDIN BIN SIPEK', url: 'https://drive.google.com/drive/folders/14UrXk60RCrI8-wBBzLXmajTKrLuIvlI8?usp=sharing' },
+                { nama: '3. LING MEE CHOO', url: 'https://drive.google.com/drive/folders/1yZDwH0fci1--qYTIvRk46BZhXBj78cyA?usp=sharing' },
+                { nama: '4. SALIHIN BIN AHMAD', url: 'https://drive.google.com/drive/folders/1GNRJ5scCTrJHtUMHKZlbPA11tjBnHrpF?usp=drive_link' },
+                { nama: '5. NUR HIDAYU BINTI YUSOP', url: 'https://drive.google.com/drive/folders/1eCKYws9yWfNEcKEq8piDU3vXbFcDEhrP?usp=sharing' }
+            ];
+
+            if (list1) {
+                list1.innerHTML = kandungan1.map(item => `
+                    <li>
+                        ${item.isModal ? `
+                            <button onclick="${item.aksi}" class="w-full flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
+                                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors"></i>
+                                <span>${item.nama}</span>
+                            </button>
+                        ` : `
+                            <button onclick="window.open('${item.url}', '_blank')" class="w-full flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
+                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors"></i>
+                                <span>${item.nama}</span>
+                            </button>
+                        `}
+                    </li>
+                `).join('');
+            }
+
+            if (list3) {
+                list3.innerHTML = kandungan3.map(item => `
+                    <li>
+                        <button onclick="window.open('${item.url}', '_blank')" class="w-full flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 font-semibold transition-all text-xs text-left group/item">
+                            <i data-lucide="folder" class="w-4 h-4 text-slate-400 group-hover/item:text-emerald-500 transition-colors"></i>
+                            <span>${item.nama}</span>
+                        </button>
+                    </li>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function toggleMenu(id) {
+            const menu = document.getElementById(`menu-${id}`);
+            const chevron = document.getElementById(`chevron-${id}`);
+            const kad = document.getElementById(`card-${id}`);
+
+            if (!menu || !chevron) return;
+
+            if (menu.classList.contains('max-h-0')) {
+                // Buka Menu
+                menu.classList.remove('max-h-0', 'opacity-0');
+                menu.classList.add('max-h-[500px]', 'opacity-100');
+                chevron.classList.add('rotate-90');
+                if (kad) kad.classList.add('ring-4', id === 1 ? 'ring-blue-400/30' : 'ring-emerald-400/30');
+            } else {
+                // Tutup Menu
+                menu.classList.remove('max-h-[500px]', 'opacity-100');
+                menu.classList.add('max-h-0', 'opacity-0');
+                chevron.classList.remove('rotate-90');
+                if (kad) kad.classList.remove('ring-4', 'ring-blue-400/30', 'ring-emerald-400/30');
+            }
+        }
+
+        function tunjukModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+            }, 50);
+            document.body.classList.add('no-scroll');
+        }
+
+        function sembunyiModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            modal.classList.remove('opacity-100');
             modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-            currentSignTarget = null;
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            document.body.classList.remove('no-scroll');
         }
 
-        function clearSignature() {
-            if(signaturePad) signaturePad.clear();
+        // =======================================================
+        // MODUL 1: REKOD PENYERAHAN BORANG (ITEM 8 & 9)
+        // =======================================================
+        let rekodRowIndex = 0;
+
+        function openRekodModal(jenisPP) {
+            const mainTitle = document.getElementById('pdf-main-title');
+            const headerTitle = document.getElementById('modal-header-title');
+
+            if (jenisPP === 1) {
+                headerTitle.textContent = ""; // Ayat dipadamkan mengikut rujukan image_2c653e.jpg
+                mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG SKOR KEPADA PYD";
+            } else {
+                headerTitle.textContent = ""; // Ayat dipadamkan mengikut rujukan image_2c653e.jpg
+                mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG KEBERHASILAN KEPADA PYD";
+            }
+
+            const tbody = document.getElementById('rekod-tbody');
+            if (tbody && tbody.children.length === 0) {
+                rekodRowIndex = 0;
+                SENARAI_PYD.forEach(nama => addRow(nama));
+            }
+            tunjukModal('rekod-modal');
+        }
+
+        function closeRekodModal() { sembunyiModal('rekod-modal'); }
+
+        function addRow(namaSediaAda = "") {
+            rekodRowIndex++;
+            const tbody = document.getElementById('rekod-tbody');
+            const tr = document.createElement('tr');
+            tr.id = `rekod-row-${rekodRowIndex}`;
+            tr.className = "hover:bg-slate-50 transition-colors";
+
+            tr.innerHTML = `
+                <td class="border border-black p-2 text-center font-bold bg-slate-50 row-number"></td>
+                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[240px] md:min-w-[280px]">
+                    <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-2 py-1">${namaSediaAda}</span>
+                </td>
+                <td class="border border-black p-2 text-center bg-white">
+                    <div class="flex flex-col gap-1 items-center">
+                        <input type="date" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <div onclick="bukaPadTandatangan('${tr.id}', 'pp1')" class="sig-box w-full min-h-[42px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
+                            <span class="text-[10px] text-blue-600 font-bold flex items-center gap-1"><i data-lucide="pen-tool" class="w-3 h-3"></i> T/Tangan</span>
+                        </div>
+                    </div>
+                </td>
+                <td class="border border-black p-2 text-center bg-white">
+                    <div class="flex flex-col gap-1 items-center">
+                        <input type="date" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <div onclick="bukaPadTandatangan('${tr.id}', 'pp2')" class="sig-box w-full min-h-[42px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
+                            <span class="text-[10px] text-blue-600 font-bold flex items-center gap-1"><i data-lucide="pen-tool" class="w-3 h-3"></i> T/Tangan</span>
+                        </div>
+                    </div>
+                </td>
+                <td class="border border-black p-1 bg-white">
+                    <input type="text" placeholder="Catatan..." class="w-full px-2 py-2 focus:bg-amber-50 outline-none text-xs">
+                </td>
+                <td class="border border-black p-1 text-center align-middle no-print-col bg-slate-50">
+                    <button onclick="padamBaris('${tr.id}', 'rekod-tbody')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+            susunNomborBaris('rekod-tbody');
+            lucide.createIcons();
+        }
+
+        // =======================================================
+        // MODUL 2: JADUAL PENJAJARAN MASA (ITEM 10)
+        // =======================================================
+        let jadualRowIndex = 0;
+
+        function openJadualModal() {
+            const tbody = document.getElementById('jadual-tbody');
+            if (tbody && tbody.children.length === 0) {
+                jadualRowIndex = 0;
+                SENARAI_PYD.forEach(nama => addJadualRow(nama));
+            }
+            tunjukModal('jadual-modal');
+        }
+
+        function closeJadualModal() { sembunyiModal('jadual-modal'); }
+
+        function addJadualRow(namaSediaAda = "") {
+            jadualRowIndex++;
+            const tbody = document.getElementById('jadual-tbody');
+            const tr = document.createElement('tr');
+            tr.id = `jadual-row-${jadualRowIndex}`;
+            tr.className = "hover:bg-slate-50 transition-colors";
+
+            let binaSelsTarikh = '';
+            for (let i = 1; i <= 7; i++) {
+                binaSelsTarikh += `
+                    <td class="border border-black p-2 text-center bg-white w-[110px] min-w-[110px]">
+                        <div class="flex flex-col gap-1 items-center">
+                            <input type="date" class="w-full border border-slate-300 rounded px-1 py-1 text-[10px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            <div onclick="bukaPadTandatangan('${tr.id}', 'act-${i}')" class="sig-box w-full min-h-[36px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
+                                <span class="text-[9px] text-blue-600 font-bold flex items-center gap-0.5"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> T/T</span>
+                            </div>
+                        </div>
+                    </td>
+                `;
+            }
+
+            tr.innerHTML = `
+                <td class="border border-black p-1 text-center font-bold bg-slate-50 row-number"></td>
+                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[240px] md:min-w-[280px]">
+                    <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-2 py-1">${namaSediaAda}</span>
+                </td>
+                ${binaSelsTarikh}
+                <td class="border border-black p-1 bg-white">
+                    <input type="text" placeholder="Catatan perancangan..." class="w-full border-0 outline-none text-xs p-1 focus:bg-amber-50">
+                </td>
+                <td class="border border-black p-1 text-center align-middle no-print-col bg-slate-50">
+                    <button onclick="padamBaris('${tr.id}', 'jadual-tbody')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+            susunNomborBaris('jadual-tbody');
+            lucide.createIcons();
+        }
+
+        function padamBaris(rowId, tbodyId) {
+            const row = document.getElementById(rowId);
+            if (row) {
+                row.remove();
+                susunNomborBaris(tbodyId);
+            }
+        }
+
+        function susunNomborBaris(tbodyId) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            const baris = tbody.querySelectorAll('.row-number');
+            baris.forEach((td, index) => {
+                td.textContent = index + 1;
+            });
+        }
+
+        // =======================================================
+        // PAD TANDATANGAN DIGITAL LOGIK
+        // =======================================================
+        let signaturePad;
+        const kanvas = document.getElementById('sig-canvas');
+        let sasaranRowId = null;
+        let sasaranKolum = null;
+
+        function initSignaturePad() {
+            if (!kanvas) return;
+            signaturePad = new SignaturePad(kanvas, {
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                penColor: '#000000',
+                minWidth: 1.5,
+                maxWidth: 4.0
+            });
+        }
+
+        function bukaPadTandatangan(rowId, jenisKolum) {
+            sasaranRowId = rowId;
+            sasaranKolum = jenisKolum;
+            tunjukModal('sig-modal');
+            // Menggunakan setTimeout untuk memastikan modal dipaparkan sepenuhnya sebelum penyesuaian saiz kanvas dijalankan
+            setTimeout(() => {
+                laraskanSaizKanvas();
+            }, 150);
+        }
+
+        function closeSignaturePad() { sembunyiModal('sig-modal'); }
+        function clearSignature() { if (signaturePad) signaturePad.clear(); }
+
+        function laraskanSaizKanvas() {
+            if (!kanvas) return;
+            const rect = kanvas.getBoundingClientRect();
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            kanvas.width = rect.width * ratio;
+            kanvas.height = rect.height * ratio;
+            const ctx = kanvas.getContext("2d");
+            ctx.scale(ratio, ratio);
+            if (signaturePad) {
+                signaturePad.clear();
+            }
         }
 
         function saveSignature() {
-            if(signaturePad.isEmpty()) {
-                alert("Sila turunkan tandatangan terlebih dahulu sebelum menyimpannya.");
+            if (!signaturePad || signaturePad.isEmpty()) {
+                tunjukMesej("Sila turunkan tandatangan terlebih dahulu sebelum pengesahan.", "error");
                 return;
             }
-            
-            const dataUrl = signaturePad.toDataURL();
-            const date = new Date();
-            const dateStr = date.toLocaleDateString('ms-MY') + '<br><span class="text-[9px] md:text-[10px] text-gray-600">' + date.toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'}) + '</span>';
-            
-            let targetContainer = document.getElementById(`sign-container-${currentSignTarget.type}-${currentSignTarget.rowId}`);
-            let htmlContent = '';
 
-            if (targetContainer) {
-                // Modul Jadual
-                htmlContent = `
-                    <div class="flex flex-col items-center justify-center p-0.5">
-                        <img src="${dataUrl}" class="h-6 md:h-8 object-contain" />
-                        <div class="text-[7px] md:text-[8px] text-black mt-0.5 font-medium text-center leading-tight uppercase">${dateStr}</div>
-                        <button onclick="openSignaturePad(${currentSignTarget.rowId}, '${currentSignTarget.type}')" class="mt-1 text-[8px] md:text-[9px] bg-blue-50 text-blue-600 hover:bg-blue-100 px-1.5 py-0.5 rounded font-semibold transition-colors no-print-button inline-flex items-center justify-center">
-                            <i data-lucide="edit-3" class="w-2.5 h-2.5 mr-0.5"></i> Kemaskini
-                        </button>
-                    </div>
-                `;
-                targetContainer.innerHTML = htmlContent;
-            } else {
-                // Modul Rekod Skor/Keberhasilan
-                const cell = document.getElementById(`cell-${currentSignTarget.type}-${currentSignTarget.rowId}`);
-                if (cell) {
-                    htmlContent = `
-                        <div class="flex flex-col items-center justify-center p-1 min-h-[40px]">
-                            <img src="${dataUrl}" class="h-8 md:h-12 object-contain" />
-                            <div class="text-[8px] md:text-[9px] text-black mt-1 font-medium text-center leading-tight uppercase">${dateStr}</div>
-                            <button onclick="openSignaturePad(${currentSignTarget.rowId}, '${currentSignTarget.type}')" class="mt-1 text-[9px] md:text-[10px] bg-blue-50 text-blue-600 hover:bg-blue-100 px-2 py-1 rounded font-semibold transition-colors no-print-button inline-flex items-center justify-center">
-                                <i data-lucide="edit-3" class="w-3 h-3 mr-1"></i> Kemaskini
-                            </button>
-                        </div>
-                    `;
-                    cell.innerHTML = htmlContent;
+            const dataURL = signaturePad.toDataURL('image/png');
+            const rowSasaran = document.getElementById(sasaranRowId);
+            
+            if (rowSasaran) {
+                if (sasaranKolum.startsWith('act-')) {
+                    const actIndex = parseInt(sasaranKolum.split('-')[1]) - 1;
+                    const kotakSig = rowSasaran.querySelectorAll('.sig-box')[actIndex];
+                    
+                    if (kotakSig) {
+                        kotakSig.innerHTML = `<img src="${dataURL}" class="max-h-[30px] object-contain pointer-events-none mx-auto" alt="T/T">`;
+                        kotakSig.className = "sig-box w-full min-h-[36px] flex items-center justify-center border border-solid border-emerald-400 rounded bg-emerald-50/60 mt-1";
+                    }
+                } else {
+                    const indeksSellular = sasaranKolum === 'pp1' ? 0 : 1;
+                    const kotakSig = rowSasaran.querySelectorAll('.sig-box')[indeksSellular];
+                    
+                    if (kotakSig) {
+                        kotakSig.innerHTML = `<img src="${dataURL}" class="max-h-[40px] object-contain pointer-events-none mx-auto" alt="Tandatangan Sah">`;
+                        kotakSig.className = "sig-box w-full min-h-[42px] flex items-center justify-center border border-solid border-emerald-400 rounded bg-emerald-50/60 mt-1";
+                    }
                 }
             }
-
-            // Hantar Tandatangan Ke Firebase Cloud
-            if(window.saveSignToFirebase) {
-                window.saveSignToFirebase('sign_' + currentSignTarget.type + '_' + currentSignTarget.rowId, htmlContent, currentModalType);
-            }
-            
             closeSignaturePad();
-            setTimeout(() => { lucide.createIcons(); }, 10);
+            tunjukMesej("Tandatangan berjaya dimasukkan!", "success");
         }
 
-        const senaraiPYD = [
-            "AZIZ BIN TAHIR", "MOHAMAD ABIDIN BIN SIPEK", "LING MEE CHOO", "SALIHIN BIN AHMAD",
-            "WONG PICK KING", "TING HUA EE", "JACQUELINE TIONG HOE DING", "NUR HIDAYU BINTI YUSOP",
-            "MOHD RAFEEQ BIN SULAIMAN", "FAZRI BIN BAKERI", "HILWA HAYATI BINTI MOHAMAD AJALAN",
-            "KHAIRI BIN SAHARI", "SABARIAH BINTI SOLHI", "BRYAN ANAK CONSTANT", "JIMMY ANAK PETER",
-            "TING YU YONG", "JERIAH ANAK SIMON", "ZEPRINA ANAK BENIK", "SYAEEZA LIANA BINTI RAMLI",
-            "HAIROL BIN ISMAIL", "NURUL HUDA BTE MOHD IHWAN", "MARY JANE AMOI UMPANG ANAK DANIEL",
-            "EIFILISIA AMBER ANAK MERVIN", "AIDA MASTURINA BINTI HAMKA", "AIFA NUR BESTARI BINTI RADUAN",
-            "NUR AZLIN BINTI NORIZAN", "TENG RU YUN", "VANITHA A/P SUBRAMANIAM", "DLIYANA ANAK JOHN",
-            "MUHAMMAD ZULHUSAINI BIN ABDUL WAHAB", "CHRISTIAN SIMON", "NUR FADZLIAH AMAL BINTI OSMAN"
-        ];
-
-        // --- Logik Modul Rekod Penyerahan Borang (Item 8 & 9) ---
-        let rowCount = 0;
-        let currentPdfFilename = 'Dokumen.pdf';
-        let currentModalType = '';
-
-        function openRekodModal(type = 'SKOR') {
-            toggleBodyScroll(true);
-            const modal = document.getElementById('rekod-modal');
-            const headerTitleEl = document.getElementById('modal-header-title');
-            const mainTitleEl = document.getElementById('pdf-main-title');
-            const colTitleEl = document.getElementById('pdf-col-title');
-
-            if (type === 'KEBERHASILAN') {
-                headerTitleEl.innerText = 'Borang Keberhasilan';
-                mainTitleEl.innerText = 'REKOD PP MENYERAHKAN SALINAN BORANG KEBERHASILAN KEPADA PYD';
-                colTitleEl.innerHTML = 'BORANG KEBERHASILAN<br><span class="font-normal text-[10px] md:text-xs">TARIKH/ TANDATANGAN</span>';
-                currentPdfFilename = 'Rekod_Penyerahan_Borang_Keberhasilan_PYD.pdf';
-            } else {
-                headerTitleEl.innerText = 'Borang Skor';
-                mainTitleEl.innerText = 'REKOD PP MENYERAHKAN SALINAN BORANG SKOR KEPADA PYD';
-                colTitleEl.innerHTML = 'BORANG SKOR<br><span class="font-normal text-[10px] md:text-xs">TARIKH/ TANDATANGAN</span>';
-                currentPdfFilename = 'Rekod_Penyerahan_Borang_Skor_PYD.pdf';
-            }
-
-            if (currentModalType !== type) {
-                const tbody = document.getElementById('rekod-tbody');
-                tbody.innerHTML = '';
-                rowCount = 0;
-                currentModalType = type;
-                if(rowCount === 0) {
-                    senaraiPYD.forEach(nama => addRow(nama));
+        // =======================================================
+        // EKSPORT PDF MENGGUNAKAN HTML2PDF
+        // =======================================================
+        function janaGayaCetak() {
+            const style = document.createElement('style');
+            style.id = 'gaya-cetak-pdf';
+            style.innerHTML = `
+                /* Sembunyikan Lajur Aksi & Butang */
+                .no-print-col, .no-print-btn, button[onclick*="padamBaris"] { display: none !important; }
+                
+                /* Tukar Input kepada Teks Bersih */
+                input[type="text"] {
+                    border: none !important;
+                    background: transparent !important;
+                    pointer-events: none !important;
+                    box-shadow: none !important;
+                    text-align: left !important;
+                    padding: 4px !important;
+                    font-size: 11px !important;
                 }
-            }
+                
+                /* Tukar Input Date kepada Gaya Teks Bersih */
+                input[type="date"] {
+                    border: none !important;
+                    background: transparent !important;
+                    pointer-events: none !important;
+                    box-shadow: none !important;
+                    text-align: center !important;
+                    font-size: 11px !important;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                }
+                
+                input[type="date"]::-webkit-calendar-picker-indicator {
+                    display: none !important;
+                    -webkit-appearance: none;
+                }
+                
+                /* Struktur Layout Cetakan */
+                .table-container { 
+                    overflow-x: visible !important; 
+                    width: 100% !important;
+                }
+                
+                table { 
+                    width: 100% !important; 
+                    min-width: 100% !important; 
+                    table-layout: fixed !important; 
+                    border-collapse: collapse !important;
+                }
+                
+                th, td { 
+                    word-wrap: break-word !important; 
+                    white-space: normal !important; 
+                    border: 1px solid #000000 !important;
+                    padding: 6px !important;
+                }
+                
+                /* Pengoptimuman saiz lajur cetakan Rekod (Item 8 & 9) */
+                #pdf-content table th:nth-child(1), #pdf-content table td:nth-child(1) { width: 5% !important; } /* BIL */
+                #pdf-content table th:nth-child(2), #pdf-content table td:nth-child(2) { width: 35% !important; } /* NAMA PYD */
+                #pdf-content table td:nth-child(3), #pdf-content table td:nth-child(4) { width: 22% !important; } /* TARIKH/TT */
+                #pdf-content table td:nth-child(5) { width: 16% !important; } /* CATATAN */
+                
+                /* Pengoptimuman saiz lajur cetakan Jadual (Item 10) */
+                #pdf-content-jadual table th:nth-child(1), #pdf-content-jadual table td:nth-child(1) { width: 3% !important; } /* BIL */
+                #pdf-content-jadual table th:nth-child(2), #pdf-content-jadual table td:nth-child(2) { width: 20% !important; } /* NAMA PYD */
+                /* 7 Aktiviti */
+                #pdf-content-jadual table td:nth-child(3),
+                #pdf-content-jadual table td:nth-child(4),
+                #pdf-content-jadual table td:nth-child(5),
+                #pdf-content-jadual table td:nth-child(6),
+                #pdf-content-jadual table td:nth-child(7),
+                #pdf-content-jadual table td:nth-child(8),
+                #pdf-content-jadual table td:nth-child(9) { width: 9% !important; }
+                #pdf-content-jadual table td:nth-child(10) { width: 14% !important; } /* CATATAN KHAS */
 
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-            
-            // Aktifkan Live-Sync Firebase
-            if(window.listenToFirebase) window.listenToFirebase(currentModalType);
-        }
+                /* Kotak Tandatangan */
+                .sig-box {
+                    border: none !important;
+                    background: transparent !important;
+                    min-height: auto !important;
+                    margin-top: 2px !important;
+                }
+                
+                .sig-box img {
+                    max-height: 25px !important;
+                    width: auto !important;
+                }
+                
+                .sig-box span {
+                    display: none !important; /* Hilangkan teks "T/Tangan" */
+                }
 
-        function closeRekodModal() {
-            toggleBodyScroll(false);
-            const modal = document.getElementById('rekod-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        function addRow(namaPYD = '') {
-            rowCount++;
-            const tbody = document.getElementById('rekod-tbody');
-            const tr = document.createElement('tr');
-            tr.id = `rekod-row-${rowCount}`;
-            
-            tr.innerHTML = `
-                <td class="border border-black p-1 md:p-2 text-center text-black font-medium text-xs md:text-sm">${rowCount}</td>
-                <td class="border border-black p-0 sticky-mobile sticky-shadow bg-white">
-                    <input id="input_nama_${rowCount}" type="text" class="w-full h-full p-2 outline-none bg-transparent text-black text-[11px] md:text-xs font-bold uppercase tracking-tight" placeholder="Nama PYD..." value="${namaPYD}">
-                </td>
-                <td class="border border-black p-1 md:p-2 text-center align-middle min-w-[80px]" id="cell-PP1-${rowCount}">
-                    <button onclick="openSignaturePad(${rowCount}, 'PP1')" class="text-[11px] md:text-xs w-full bg-emerald-100 text-emerald-700 active:bg-emerald-300 py-2 md:py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors no-print-button">
-                        <i data-lucide="pen-tool" class="w-3.5 h-3.5 md:mr-1"></i> <span class="hidden md:inline">Sign</span>
-                    </button>
-                </td>
-                <td class="border border-black p-1 md:p-2 text-center align-middle min-w-[80px]" id="cell-PP2-${rowCount}">
-                    <button onclick="openSignaturePad(${rowCount}, 'PP2')" class="text-[11px] md:text-xs w-full bg-emerald-100 text-emerald-700 active:bg-emerald-300 py-2 md:py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors no-print-button">
-                        <i data-lucide="pen-tool" class="w-3.5 h-3.5 md:mr-1"></i> <span class="hidden md:inline">Sign</span>
-                    </button>
-                </td>
-                <td class="border border-black p-0">
-                    <input id="input_catatan_${rowCount}" type="text" class="w-full h-full p-2 md:p-3 outline-none bg-transparent text-black text-[13px] md:text-sm" placeholder="Catatan...">
-                </td>
-                <td class="border border-black p-1 md:p-2 text-center align-middle no-print-col">
-                    <div class="flex flex-col gap-1.5 justify-center items-center">
-                        <button onclick="kemaskiniRow(this)" class="text-[10px] w-full bg-blue-100 text-blue-700 hover:bg-blue-200 active:bg-blue-300 py-2 md:py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors">
-                            <i data-lucide="save" class="w-3.5 h-3.5 md:w-3 md:h-3 sm:mr-1"></i> <span class="hidden sm:inline">Kemaskini</span>
-                        </button>
-                        <button onclick="padamRow(this, 'rekod-tbody')" class="text-[10px] w-full bg-red-100 text-red-700 hover:bg-red-200 active:bg-red-300 py-2 md:py-1.5 rounded font-semibold inline-flex items-center justify-center transition-colors">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5 md:w-3 md:h-3 sm:mr-1"></i> <span class="hidden sm:inline">Padam</span>
-                        </button>
-                    </div>
-                </td>
+                .sticky-mobile { 
+                    position: static !important; 
+                    box-shadow: none !important; 
+                    background: transparent !important;
+                }
             `;
-            tbody.appendChild(tr);
-            lucide.createIcons();
+            document.head.appendChild(style);
         }
 
-        function exportPDF() {
-            const element = document.getElementById('pdf-content');
-            const pdfWrapper = document.getElementById('pdf-wrapper');
-            
-            const inputs = element.querySelectorAll('input');
-            inputs.forEach(input => { input.setAttribute('value', input.value); });
+        function lupusGayaCetak() {
+            const style = document.getElementById('gaya-cetak-pdf');
+            if (style) style.remove();
+        }
 
-            const noPrintBtns = element.querySelectorAll('.no-print-button');
-            noPrintBtns.forEach(btn => btn.style.display = 'none');
-            
-            const noPrintCols = element.querySelectorAll('.no-print-col');
-            noPrintCols.forEach(col => col.style.display = 'none');
-
-            const originalWidth = pdfWrapper.style.width;
-            pdfWrapper.style.width = '1024px'; 
-
-            const opt = {
-                margin:       0.4,
-                filename:     currentPdfFilename,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, windowWidth: 1024 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-            };
-
-            html2pdf().set(opt).from(element).save().then(() => {
-                pdfWrapper.style.width = originalWidth;
-                noPrintBtns.forEach(btn => btn.style.display = 'inline-flex');
-                noPrintCols.forEach(col => col.style.display = ''); 
+        // Membantu memastikan nilai input dipaparkan dengan betul dalam salinan HTML sebelum dijana
+        function persediaanNilaiInput(container) {
+            // Salin nilai input teks ke dalam atribut value
+            container.querySelectorAll('input[type="text"]').forEach(input => {
+                input.setAttribute('value', input.value);
+            });
+            // Salin nilai input tarikh ke dalam atribut value
+            container.querySelectorAll('input[type="date"]').forEach(input => {
+                input.setAttribute('value', input.value);
             });
         }
 
-
-        // --- Logik Modul Jadual Penjajaran Masa (Item 10) ---
-        let jadualRowCount = 0;
-
-        function openJadualModal() {
-            toggleBodyScroll(true);
-            const modal = document.getElementById('jadual-modal');
+        function exportPDF() {
+            const kandungan = document.getElementById('pdf-content');
+            if (!kandungan) return;
             
-            if (currentModalType !== 'JADUAL') {
-                const tbody = document.getElementById('jadual-tbody');
-                tbody.innerHTML = '';
-                jadualRowCount = 0;
-                currentModalType = 'JADUAL';
-                if(jadualRowCount === 0) {
-                    senaraiPYD.forEach(nama => addJadualRow(nama));
-                }
-            }
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            persediaanNilaiInput(kandungan);
+            janaGayaCetak();
 
-            // Aktifkan Live-Sync Firebase
-            if(window.listenToFirebase) window.listenToFirebase(currentModalType);
-        }
+            const konfigurasi = {
+                margin: [10, 10, 10, 10],
+                filename: `Rekod_Penyerahan_Borang_ePBPPP_${new Date().toISOString().slice(0,10)}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2.5, 
+                    useCORS: true, 
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
 
-        function closeJadualModal() {
-            toggleBodyScroll(false);
-            const modal = document.getElementById('jadual-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
+            tunjukMesej("Menjana PDF berkualiti tinggi...", "success");
 
-        function createJadualCell(row, col) {
-            return `
-                <td class="border border-black p-0.5 md:p-1 align-top bg-white min-w-[85px] md:min-w-[100px]">
-                    <div class="flex flex-col w-full h-full min-h-[90px] md:min-h-[100px]">
-                        <input id="input_date_${col}_${row}" type="date" class="w-full p-1 text-center outline-none bg-transparent text-black text-[11px] md:text-[11px] border-b border-slate-200 cursor-pointer min-h-[36px]" title="Tarikh">
-                        <div id="sign-container-${col}-${row}" class="flex-1 flex flex-col items-center justify-center pt-1.5 pb-1 px-1">
-                            <button onclick="openSignaturePad(${row}, '${col}')" class="text-[11px] md:text-[10px] w-full py-2 md:py-1.5 bg-emerald-100 text-emerald-700 active:bg-emerald-300 rounded font-semibold inline-flex items-center justify-center transition-colors no-print-button">
-                                <i data-lucide="pen-tool" class="w-3.5 h-3.5 md:w-3 md:h-3 md:mr-1"></i><span class="hidden md:inline">Sign</span>
-                            </button>
-                        </div>
-                    </div>
-                </td>
-            `;
-        }
-
-        function addJadualRow(namaPYD = '') {
-            jadualRowCount++;
-            const tbody = document.getElementById('jadual-tbody');
-            const tr = document.createElement('tr');
-            
-            tr.innerHTML = `
-                <td class="border border-black p-1 md:p-2 text-center text-black font-medium text-xs md:text-sm align-top pt-3 md:pt-4">${jadualRowCount}</td>
-                <td class="border border-black p-0 align-top sticky-mobile sticky-shadow bg-white">
-                    <input id="input_nama_j_${jadualRowCount}" type="text" class="w-full h-full min-h-[90px] md:min-h-[100px] p-2 pt-3 outline-none bg-transparent text-black text-[11px] md:text-xs font-bold uppercase tracking-tight" placeholder="Nama PYD..." value="${namaPYD}">
-                </td>
-                ${createJadualCell(jadualRowCount, 'J1')}
-                ${createJadualCell(jadualRowCount, 'J2')}
-                ${createJadualCell(jadualRowCount, 'J3')}
-                ${createJadualCell(jadualRowCount, 'J4')}
-                ${createJadualCell(jadualRowCount, 'J5')}
-                ${createJadualCell(jadualRowCount, 'J6')}
-                ${createJadualCell(jadualRowCount, 'J7')}
-                <td class="border border-black p-0 align-top">
-                    <input id="input_catatan_j_${jadualRowCount}" type="text" class="w-full h-full min-h-[90px] md:min-h-[100px] p-2 outline-none bg-transparent text-black text-[13px] md:text-xs" placeholder="Catatan...">
-                </td>
-                <td class="border border-black p-1 md:p-2 text-center align-middle no-print-col w-[65px] md:w-[80px]">
-                    <div class="flex flex-col gap-2 justify-center items-center px-0.5">
-                        <button onclick="kemaskiniRow(this)" class="text-[11px] md:text-[10px] w-full bg-blue-100 text-blue-700 hover:bg-blue-200 active:bg-blue-300 py-2 rounded font-semibold inline-flex items-center justify-center transition-colors">
-                            <i data-lucide="save" class="w-3.5 h-3.5 md:w-3 md:h-3 sm:mr-1"></i> <span class="hidden sm:inline">Kemaskini</span>
-                        </button>
-                        <button onclick="padamRow(this, 'jadual-tbody')" class="text-[11px] md:text-[10px] w-full bg-red-100 text-red-700 hover:bg-red-200 active:bg-red-300 py-2 rounded font-semibold inline-flex items-center justify-center transition-colors">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5 md:w-3 md:h-3 sm:mr-1"></i> <span class="hidden sm:inline">Padam</span>
-                        </button>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-            lucide.createIcons();
+            html2pdf().set(konfigurasi).from(kandungan).save().then(() => {
+                lupusGayaCetak();
+                tunjukMesej("PDF berjaya dimuat turun!", "success");
+            }).catch(err => {
+                console.error(err);
+                lupusGayaCetak();
+                tunjukMesej("Gagal menjana PDF.", "error");
+            });
         }
 
         function exportJadualPDF() {
-            const element = document.getElementById('pdf-content-jadual');
-            const pdfWrapper = document.getElementById('pdf-wrapper-jadual');
+            const kandungan = document.getElementById('pdf-content-jadual');
+            if (!kandungan) return;
             
-            const inputs = element.querySelectorAll('input');
-            inputs.forEach(input => { input.setAttribute('value', input.value); });
+            persediaanNilaiInput(kandungan);
+            janaGayaCetak();
 
-            const noPrintBtns = element.querySelectorAll('.no-print-button');
-            noPrintBtns.forEach(btn => btn.style.display = 'none');
-            
-            const noPrintCols = element.querySelectorAll('.no-print-col');
-            noPrintCols.forEach(col => col.style.display = 'none');
-
-            const originalWidth = pdfWrapper.style.width;
-            pdfWrapper.style.width = '1400px'; 
-
-            const opt = {
-                margin:       0.3,
-                filename:     'Jadual_Perancangan_Penjajaran_Masa_PP.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, windowWidth: 1400 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+            const konfigurasi = {
+                margin: [8, 8, 8, 8],
+                filename: `Jadual_Penjajaran_Masa_ePBPPP_${new Date().toISOString().slice(0,10)}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2.5, 
+                    useCORS: true, 
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                pdfWrapper.style.width = originalWidth;
-                noPrintBtns.forEach(btn => btn.style.display = 'inline-flex');
-                noPrintCols.forEach(col => col.style.display = ''); 
+            tunjukMesej("Menjana PDF Jadual berkualiti tinggi...", "success");
+
+            html2pdf().set(konfigurasi).from(kandungan).save().then(() => {
+                lupusGayaCetak();
+                tunjukMesej("PDF Jadual berjaya dimuat turun!", "success");
+            }).catch(err => {
+                console.error(err);
+                lupusGayaCetak();
+                tunjukMesej("Gagal menjana PDF Jadual.", "error");
             });
         }
     </script>
