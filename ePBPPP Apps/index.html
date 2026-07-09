@@ -363,25 +363,25 @@
                                         <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
                                     </tr>
                                     <tr class="bg-slate-50">
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Bincang Penetapan Keberhasilan</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pencerapan 1</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pementoran / Pencerapan 1</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Penilaian Keberhasilan 1</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Key-in Skor P1 (ePrestasi)</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pementoran / Perbincangan 2</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Semakan Semula Keberhasilan</span>
                                         </th>
                                     </tr>
@@ -543,10 +543,17 @@
                 auth = getAuth(app);
 
                 // Authentication (RULE 3 - Auth Before Queries)
+                let userCredential;
                 if (customToken) {
-                    await signInWithCustomToken(auth, customToken);
+                    userCredential = await signInWithCustomToken(auth, customToken);
                 } else {
-                    await signInAnonymously(auth);
+                    userCredential = await signInAnonymously(auth);
+                }
+                const user = userCredential.user;
+                if (!user) {
+                    updateConnectionBadge('local');
+                    fallbackLocalData();
+                    return;
                 }
 
                 isCloudConnected = true;
@@ -574,7 +581,7 @@
                         stateKeberhasilan = binaDataAwal();
                         hantarKemaskiniAwan('keberhasilan', stateKeberhasilan);
                     }
-                    if (currentModalType === 'keberhasilan') renderKeberhasilanTable();
+                    if (currentModalType === 'keberhasilan') renderSkorTable();
                 }, (err) => {
                     console.error("Firestore error (keberhasilan):", err);
                 });
@@ -644,7 +651,7 @@
 
             tbody.innerHTML = dataState.map((row, index) => {
                 const displaySig1 = row.sig1 
-                    ? `<div class="relative group">
+                    ? `<div class="relative group inline-block">
                          <img src="${row.sig1}" class="max-h-[40px] object-contain pointer-events-none mx-auto" alt="T/T">
                          <button onclick="window.padamTandatangan('${row.id}', 'sig1')" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-0.5 rounded-full shadow transition-opacity focus:outline-none no-print-col">
                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
@@ -655,7 +662,7 @@
                        </div>`;
 
                 const displaySig2 = row.sig2
-                    ? `<div class="relative group">
+                    ? `<div class="relative group inline-block">
                          <img src="${row.sig2}" class="max-h-[40px] object-contain pointer-events-none mx-auto" alt="T/T">
                          <button onclick="window.padamTandatangan('${row.id}', 'sig2')" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-0.5 rounded-full shadow transition-opacity focus:outline-none no-print-col">
                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
@@ -668,8 +675,8 @@
                 return `
                 <tr id="${row.id}" class="hover:bg-slate-50 transition-colors">
                     <td class="border border-black p-2 text-center font-bold bg-slate-50 row-number">${index + 1}</td>
-                    <td class="border border-black p-2 sticky-mobile bg-white sticky-shadow min-w-[180px] md:min-w-[200px]">
-                        <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-1 py-0.5">${row.nama}</span>
+                    <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[180px] md:min-w-[200px]">
+                        <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-1.5 py-0.5">${row.nama}</span>
                     </td>
                     <td class="border border-black p-2 text-center bg-white">
                         <div class="flex flex-col gap-1 items-center">
@@ -707,7 +714,7 @@
                     const signatureNilai = row.sigs[i];
 
                     const displaySig = signatureNilai
-                        ? `<div class="relative group">
+                        ? `<div class="relative group inline-block">
                              <img src="${signatureNilai}" class="max-h-[30px] object-contain pointer-events-none mx-auto" alt="T/T">
                              <button onclick="window.padamTandatanganJadual('${row.id}', ${i})" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-0.5 rounded-full shadow transition-opacity focus:outline-none no-print-col">
                                <i data-lucide="x" class="w-2.5 h-2.5"></i>
@@ -718,7 +725,7 @@
                            </div>`;
 
                     selaAktivitiHtml += `
-                    <td class="border border-black p-2 text-center bg-white w-[110px] min-w-[110px]">
+                    <td class="border border-black p-2 text-center bg-white w-[100px] min-w-[100px]">
                         <div class="flex flex-col gap-1 items-center">
                             <input type="date" value="${tarikhNilai}" onchange="window.kemaskiniDataJadual('${row.id}', ${i}, 'date', this.value)" class="w-full border border-slate-300 rounded px-1 py-1 text-[10px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                             ${displaySig}
@@ -774,8 +781,7 @@
                 target[field] = "";
                 hantarKemaskiniAwan(currentModalType, state);
                 tunjukMesej("Tandatangan dipadam. Anda boleh menandatangan semula.", "success");
-                if (currentModalType === 'skor') renderSkorTable();
-                else renderKeberhasilanTable();
+                renderSkorTable();
             }
         };
 
@@ -874,7 +880,7 @@
                 list1.innerHTML = kandungan1.map(item => `
                     <li>
                         ${item.isModal ? `
-                            <button onclick="${item.aksi}" class="w-full flex items-start gap-2.5 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
+                            <button onclick="window.${item.aksi}" class="w-full flex items-start gap-2.5 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
                                 <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors shrink-0 mt-0.5"></i>
                                 <span class="break-words whitespace-normal leading-relaxed flex-1">${item.nama}</span>
                             </button>
@@ -957,7 +963,7 @@
                 currentModalType = "keberhasilan";
                 headerTitle.textContent = "Rekod Penyerahan Borang Keberhasilan";
                 mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG KEBERHASILAN KEPADA PYD";
-                renderKeberhasilanTable();
+                renderSkorTable();
             }
             tunjukModal('rekod-modal');
         };
@@ -969,7 +975,6 @@
 
         window.addRow = function() {
             const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
-            const newIndex = state.length + 1;
             
             const namaSediaAda = prompt("Sila masukkan nama PYD Baharu:");
             if (!namaSediaAda || namaSediaAda.trim() === "") return;
@@ -985,8 +990,7 @@
             });
 
             hantarKemaskiniAwan(currentModalType, state);
-            if (currentModalType === 'skor') renderSkorTable();
-            else renderKeberhasilanTable();
+            renderSkorTable();
             tunjukMesej("Nama PYD berjaya ditambah!", "success");
         };
 
@@ -1027,12 +1031,11 @@
                 if (currentModalType === 'skor') {
                     stateSkor = filtered;
                     hantarKemaskiniAwan('skor', stateSkor);
-                    renderSkorTable();
                 } else {
                     stateKeberhasilan = filtered;
                     hantarKemaskiniAwan('keberhasilan', stateKeberhasilan);
-                    renderKeberhasilanTable();
                 }
+                renderSkorTable();
             } else {
                 stateJadual = stateJadual.filter(r => r.id !== rowId);
                 hantarKemaskiniAwan('jadual', stateJadual);
@@ -1107,8 +1110,7 @@
                         target.sig2 = dataURL;
                     }
                     hantarKemaskiniAwan(currentModalType, state);
-                    if (currentModalType === 'skor') renderSkorTable();
-                    else renderKeberhasilanTable();
+                    renderSkorTable();
                 }
             }
 
