@@ -288,7 +288,7 @@
                                 <thead>
                                     <tr class="bg-slate-100">
                                         <th class="border border-black p-2 w-10 text-center align-middle" rowspan="2">BIL</th>
-                                        <th class="border border-black p-2 min-w-[240px] md:min-w-[280px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
+                                        <th class="border border-black p-2 min-w-[180px] md:min-w-[200px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
                                         <th id="pdf-col-title" class="border border-black p-2 text-center" colspan="2">TARIKH & TANDATANGAN PENYERAHAN</th>
                                         <th class="border border-black p-2 min-w-[150px] align-middle text-left" rowspan="2">CATATAN</th>
                                         <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
@@ -345,7 +345,7 @@
                                 <thead>
                                     <tr class="bg-slate-100">
                                         <th class="border border-black p-2 w-10 text-center align-middle" rowspan="2">BIL</th>
-                                        <th class="border border-black p-2 min-w-[180px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
+                                        <th class="border border-black p-2 min-w-[140px] md:min-w-[160px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
                                         <th class="border border-black p-2 text-center" colspan="7">AKTIVITI / PERANCANGAN TARIKH PENILAIAN</th>
                                         <th class="border border-black p-2 min-w-[150px] align-middle text-left" rowspan="2">CATATAN KHAS</th>
                                         <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
@@ -539,7 +539,7 @@
             const list1 = document.getElementById('list-1');
             const list3 = document.getElementById('list-3');
 
-            // Kandungan Fail Pengurusan (Menu 1 - 12 Item sepadan imej)
+            // Kandungan Fail Pengurusan (Menu 1 - 12 Item sepadan pautan & tindakan)
             const kandungan1 = [
                 { nama: '1. Fail Pengurusan PBPPP (Fail Terperingkat)', url: 'https://drive.google.com/drive/folders/1ZVpagwoEX7O6NGSOxSSmELTVRVQEfoJb?usp=sharing', isModal: false },
                 { nama: '2. Surat Arahan Pelaksanaan PBPPP', url: 'https://drive.google.com/file/d/11-uEEi3PDU77XJjCbGuNS5FwS4I4E-Lf/view?usp=sharing', isModal: false },
@@ -568,14 +568,14 @@
                 list1.innerHTML = kandungan1.map(item => `
                     <li>
                         ${item.isModal ? `
-                            <button onclick="${item.aksi}" class="w-full flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
-                                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors"></i>
-                                <span>${item.nama}</span>
+                            <button onclick="${item.aksi}" class="w-full flex items-start gap-3 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-[11px] sm:text-xs text-left group/btn">
+                                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors shrink-0 mt-0.5"></i>
+                                <span class="break-words whitespace-normal leading-relaxed flex-1">${item.nama}</span>
                             </button>
                         ` : `
-                            <button onclick="window.open('${item.url}', '_blank')" class="w-full flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
-                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors"></i>
-                                <span>${item.nama}</span>
+                            <button onclick="window.open('${item.url}', '_blank')" class="w-full flex items-start gap-3 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-[11px] sm:text-xs text-left group/btn">
+                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors shrink-0 mt-0.5"></i>
+                                <span class="break-words whitespace-normal leading-relaxed flex-1">${item.nama}</span>
                             </button>
                         `}
                     </li>
@@ -606,12 +606,12 @@
             if (menu.classList.contains('max-h-0')) {
                 // Buka Menu
                 menu.classList.remove('max-h-0', 'opacity-0');
-                menu.classList.add('max-h-[500px]', 'opacity-100');
+                menu.classList.add('max-h-[1500px]', 'opacity-100');
                 chevron.classList.add('rotate-90');
                 if (kad) kad.classList.add('ring-4', id === 1 ? 'ring-blue-400/30' : 'ring-emerald-400/30');
             } else {
                 // Tutup Menu
-                menu.classList.remove('max-h-[500px]', 'opacity-100');
+                menu.classList.remove('max-h-[1500px]', 'opacity-100');
                 menu.classList.add('max-h-0', 'opacity-0');
                 chevron.classList.remove('rotate-90');
                 if (kad) kad.classList.remove('ring-4', 'ring-blue-400/30', 'ring-emerald-400/30');
@@ -650,10 +650,10 @@
             const headerTitle = document.getElementById('modal-header-title');
 
             if (jenisPP === 1) {
-                headerTitle.textContent = ""; // Ayat dipadamkan mengikut rujukan image_2c653e.jpg
+                headerTitle.textContent = ""; 
                 mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG SKOR KEPADA PYD";
             } else {
-                headerTitle.textContent = ""; // Ayat dipadamkan mengikut rujukan image_2c653e.jpg
+                headerTitle.textContent = ""; 
                 mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG KEBERHASILAN KEPADA PYD";
             }
 
@@ -676,7 +676,7 @@
 
             tr.innerHTML = `
                 <td class="border border-black p-2 text-center font-bold bg-slate-50 row-number"></td>
-                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[240px] md:min-w-[280px]">
+                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[180px] md:min-w-[200px]">
                     <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-2 py-1">${namaSediaAda}</span>
                 </td>
                 <td class="border border-black p-2 text-center bg-white">
@@ -748,7 +748,7 @@
 
             tr.innerHTML = `
                 <td class="border border-black p-1 text-center font-bold bg-slate-50 row-number"></td>
-                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[240px] md:min-w-[280px]">
+                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[140px] md:min-w-[160px]">
                     <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-2 py-1">${namaSediaAda}</span>
                 </td>
                 ${binaSelsTarikh}
@@ -805,7 +805,6 @@
             sasaranRowId = rowId;
             sasaranKolum = jenisKolum;
             tunjukModal('sig-modal');
-            // Menggunakan setTimeout untuk memastikan modal dipaparkan sepenuhnya sebelum penyesuaian saiz kanvas dijalankan
             setTimeout(() => {
                 laraskanSaizKanvas();
             }, 150);
@@ -920,22 +919,22 @@
                 
                 /* Pengoptimuman saiz lajur cetakan Rekod (Item 8 & 9) */
                 #pdf-content table th:nth-child(1), #pdf-content table td:nth-child(1) { width: 5% !important; } /* BIL */
-                #pdf-content table th:nth-child(2), #pdf-content table td:nth-child(2) { width: 35% !important; } /* NAMA PYD */
-                #pdf-content table td:nth-child(3), #pdf-content table td:nth-child(4) { width: 22% !important; } /* TARIKH/TT */
+                #pdf-content table th:nth-child(2), #pdf-content table td:nth-child(2) { width: 25% !important; } /* NAMA PYD (dikecilkan dari 35%) */
+                #pdf-content table td:nth-child(3), #pdf-content table td:nth-child(4) { width: 27% !important; } /* TARIKH/TT (diluaskan dari 22%) */
                 #pdf-content table td:nth-child(5) { width: 16% !important; } /* CATATAN */
                 
                 /* Pengoptimuman saiz lajur cetakan Jadual (Item 10) */
                 #pdf-content-jadual table th:nth-child(1), #pdf-content-jadual table td:nth-child(1) { width: 3% !important; } /* BIL */
-                #pdf-content-jadual table th:nth-child(2), #pdf-content-jadual table td:nth-child(2) { width: 20% !important; } /* NAMA PYD */
-                /* 7 Aktiviti */
+                #pdf-content-jadual table th:nth-child(2), #pdf-content-jadual table td:nth-child(2) { width: 14% !important; } /* NAMA PYD (dikecilkan dari 20%) */
+                /* 7 Aktiviti (masing-masing diluaskan dari 9% kepada 10%) */
                 #pdf-content-jadual table td:nth-child(3),
                 #pdf-content-jadual table td:nth-child(4),
                 #pdf-content-jadual table td:nth-child(5),
                 #pdf-content-jadual table td:nth-child(6),
                 #pdf-content-jadual table td:nth-child(7),
                 #pdf-content-jadual table td:nth-child(8),
-                #pdf-content-jadual table td:nth-child(9) { width: 9% !important; }
-                #pdf-content-jadual table td:nth-child(10) { width: 14% !important; } /* CATATAN KHAS */
+                #pdf-content-jadual table td:nth-child(9) { width: 10% !important; }
+                #pdf-content-jadual table td:nth-child(10) { width: 13% !important; } /* CATATAN KHAS */
 
                 /* Kotak Tandatangan */
                 .sig-box {
@@ -951,7 +950,7 @@
                 }
                 
                 .sig-box span {
-                    display: none !important; /* Hilangkan teks "T/Tangan" */
+                    display: none !important; 
                 }
 
                 .sticky-mobile { 
@@ -968,13 +967,10 @@
             if (style) style.remove();
         }
 
-        // Membantu memastikan nilai input dipaparkan dengan betul dalam salinan HTML sebelum dijana
         function persediaanNilaiInput(container) {
-            // Salin nilai input teks ke dalam atribut value
             container.querySelectorAll('input[type="text"]').forEach(input => {
                 input.setAttribute('value', input.value);
             });
-            // Salin nilai input tarikh ke dalam atribut value
             container.querySelectorAll('input[type="date"]').forEach(input => {
                 input.setAttribute('value', input.value);
             });
