@@ -117,10 +117,16 @@
                 "Agar Dapat Turut Berbakti"
             </p>
             
-            <!-- Lencana Paparan Waktu Nyata -->
-            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-xs md:text-sm font-medium shadow-sm">
-                <i data-lucide="clock" class="w-4 h-4 opacity-80"></i>
-                <span id="clock-display">Memuatkan masa...</span>
+            <!-- Lencana Paparan Waktu Nyata dan Awan -->
+            <div class="flex flex-wrap justify-center gap-2 items-center">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-xs md:text-sm font-medium shadow-sm">
+                    <i data-lucide="clock" class="w-4 h-4 opacity-80"></i>
+                    <span id="clock-display">Memuatkan masa...</span>
+                </div>
+                <div id="connection-badge" class="inline-flex items-center gap-2 bg-amber-500/20 backdrop-blur-md border border-amber-400/30 text-amber-200 px-4 py-2 rounded-full text-xs md:text-sm font-medium shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span id="connection-text">Menghubungkan awan...</span>
+                </div>
             </div>
         </div>
 
@@ -261,7 +267,7 @@
         </div>
 
         <!-- Kaki Halaman (Footer) -->
-        <footer class="mt-16 text-center text-slate-400 text-xs md:text-sm">
+        <footer class="mt-16 text-center text-slate-400 text-xs md:text-sm font-medium">
             <p id="copyright-year">© 2026 SKPK Miri. Hak Cipta Terpelihara.</p>
         </footer>
     </div>
@@ -270,17 +276,20 @@
     <!-- MODAL 1: MODUL REKOD PENYERAHAN BORANG (ITEM 8 & 9)       -->
     <!-- ======================================================= -->
     <div id="rekod-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 hidden backdrop-blur-sm transition-opacity opacity-0 overflow-hidden p-0 sm:p-4">
-        <div class="bg-white w-full h-full sm:h-auto max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col relative max-h-[96vh]">
+        <div class="bg-white w-full h-full sm:h-auto max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col relative max-h-[100vh] sm:max-h-[96vh]">
             <div class="p-4 md:p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
-                <h2 id="modal-header-title" class="text-sm md:text-base font-bold text-slate-800 leading-tight"></h2>
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-ping"></div>
+                    <h2 id="modal-header-title" class="text-sm md:text-base font-bold text-slate-800 leading-tight">Rekod Penyegerakan Langsung</h2>
+                </div>
                 <button onclick="closeRekodModal()" class="text-slate-500 hover:text-red-500 transition-colors p-1.5 bg-slate-200/60 rounded-full sm:bg-transparent">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
             
-            <div class="p-3 md:p-6 overflow-y-auto flex-1 bg-slate-100/50">
+            <div class="p-2 sm:p-4 md:p-6 overflow-y-auto flex-1 bg-slate-100/50">
                 <div id="pdf-wrapper" class="bg-white shadow-sm border border-slate-300 rounded-xl w-full overflow-hidden">
-                    <div id="pdf-content" class="p-3 sm:p-6 md:p-8 w-full">
+                    <div id="pdf-content" class="p-3 sm:p-6 md:p-8 w-full overflow-x-auto">
                         <h3 id="pdf-main-title" class="text-center font-bold text-sm md:text-base mb-6 uppercase text-black leading-snug">REKOD PP MENYERAHKAN SALINAN BORANG SKOR KEPADA PYD</h3>
                         
                         <div class="overflow-x-auto table-container w-full pb-2">
@@ -294,12 +303,12 @@
                                         <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
                                     </tr>
                                     <tr class="bg-slate-50">
-                                        <th class="border border-black p-2 text-center w-[160px]">BORANG PP1</th>
-                                        <th class="border border-black p-2 text-center w-[160px]">BORANG PP2</th>
+                                        <th class="border border-black p-2 text-center w-[180px]">BORANG PP1</th>
+                                        <th class="border border-black p-2 text-center w-[180px]">BORANG PP2</th>
                                     </tr>
                                 </thead>
                                 <tbody id="rekod-tbody">
-                                    <!-- Baris dinamik akan dijanakan melalui Javascript -->
+                                    <!-- Baris dinamik disegerakkan menerusi Firebase -->
                                 </tbody>
                             </table>
                         </div>
@@ -309,7 +318,7 @@
             
             <div class="p-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-3 bg-white shrink-0 rounded-b-2xl">
                 <button onclick="addRow()" class="w-full sm:w-auto px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 active:scale-95 font-semibold rounded-xl transition-all flex justify-center items-center gap-2 text-xs md:text-sm">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah PYD
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah PYD Baharu
                 </button>
                 <div class="flex flex-col sm:flex-row gap-2">
                     <button onclick="closeRekodModal()" class="w-full sm:w-auto px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold rounded-xl transition-colors text-xs md:text-sm order-2 sm:order-1">
@@ -327,17 +336,20 @@
     <!-- MODAL 2: JADUAL PENJAJARAN MASA PENILAIAN (ITEM 10)       -->
     <!-- ======================================================= -->
     <div id="jadual-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 hidden backdrop-blur-sm transition-opacity opacity-0 overflow-hidden p-0 sm:p-4">
-        <div class="bg-white w-full h-full sm:h-auto max-w-6xl sm:rounded-2xl shadow-2xl flex flex-col relative max-h-[96vh]">
+        <div class="bg-white w-full h-full sm:h-auto max-w-6xl sm:rounded-2xl shadow-2xl flex flex-col relative max-h-[100vh] sm:max-h-[96vh]">
             <div class="p-4 md:p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
-                <h2 class="text-sm md:text-base font-bold text-slate-800 leading-tight"></h2>
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping"></div>
+                    <h2 class="text-sm md:text-base font-bold text-slate-800 leading-tight">Penjajaran Masa Perancangan</h2>
+                </div>
                 <button onclick="closeJadualModal()" class="text-slate-500 hover:text-red-500 transition-colors p-1.5 bg-slate-200/60 rounded-full sm:bg-transparent">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
             
-            <div class="p-3 md:p-6 overflow-y-auto flex-1 bg-slate-100/50">
+            <div class="p-2 sm:p-4 md:p-6 overflow-y-auto flex-1 bg-slate-100/50">
                 <div id="pdf-wrapper-jadual" class="bg-white shadow-sm border border-slate-300 rounded-xl w-full overflow-hidden">
-                    <div id="pdf-content-jadual" class="p-3 sm:p-6 md:p-8 w-full">
+                    <div id="pdf-content-jadual" class="p-3 sm:p-6 md:p-8 w-full overflow-x-auto">
                         <h3 class="text-center font-bold text-sm md:text-base mb-6 uppercase text-black leading-snug">SALINAN JADUAL / PERANCANGAN PENJAJARAN MASA PENILAIAN OLEH PP</h3>
                         
                         <div class="overflow-x-auto table-container w-full pb-2">
@@ -351,31 +363,31 @@
                                         <th class="border border-black p-2 w-16 text-center no-print-col bg-slate-200" rowspan="2">AKSI</th>
                                     </tr>
                                     <tr class="bg-slate-50">
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Bincang Penetapan Keberhasilan</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pencerapan 1</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pementoran / Pencerapan 1</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Penilaian Keberhasilan 1</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Key-in Skor P1 (ePrestasi)</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Pementoran / Perbincangan 2</span>
                                         </th>
-                                        <th class="border border-black p-2 text-center w-[100px] h-32 align-bottom">
+                                        <th class="border border-black p-2 text-center w-[110px] h-32 align-bottom">
                                             <span class="vertical-text inline-block mb-2 font-bold tracking-wide text-[11px]">Semakan Semula Keberhasilan</span>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody id="jadual-tbody">
-                                    <!-- Baris jadual dinamik akan dijanakan melalui Javascript -->
+                                    <!-- Baris jadual dinamik akan dijanakan melalui Firebase -->
                                 </tbody>
                             </table>
                         </div>
@@ -424,7 +436,7 @@
                     Padam Semua
                 </button>
                 <button onclick="saveSignature()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-all text-xs shadow-md shadow-emerald-600/10">
-                    Sahkan Dokumen
+                    Sahkan & Auto Simpan
                 </button>
             </div>
         </div>
@@ -436,10 +448,14 @@
     <div id="toast-container" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2"></div>
 
     <!-- ======================================================= -->
-    <!-- JAVASCRIPT APLIKASI UTAMA                               -->
+    <!-- JAVASCRIPT APLIKASI UTAMA (DENGAN FIREBASE & AUTO-SAVE)  -->
     <!-- ======================================================= -->
-    <script>
-        // Senarai Rasmi 32 Nama PYD Mengikut Urutan (1 - 32)
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Senarai Nama PYD Mengikut Urutan Asal (1 - 32)
         const SENARAI_PYD = [
             "AZIZ BIN TAHIR",
             "MOHAMAD ABIDIN BIN SIPEK",
@@ -475,8 +491,302 @@
             "NUR FADZLIAH AMAL BINTI OSMAN"
         ];
 
-        window.onload = function () {
+        let db = null;
+        let auth = null;
+        let isCloudConnected = false;
+
+        // State Penyimpanan Tempatan & Awan
+        let stateSkor = [];       // Data untuk Item 8 (Borang Skor)
+        let stateKeberhasilan = []; // Data untuk Item 9 (Borang Keberhasilan)
+        let stateJadual = [];      // Data untuk Item 10 (Jadual Penjajaran Masa)
+
+        // Penjejak Mod Semasa
+        let currentModalType = ""; // "skor", "keberhasilan", "jadual"
+
+        // Firebase Path Configurations (RULE 1 - STRICT PATHS)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'epbppp-skpk-miri';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        window.addEventListener('load', async () => {
             initApp();
+            await setupFirebase();
+        });
+
+        function updateConnectionBadge(status) {
+            const badge = document.getElementById('connection-badge');
+            const text = document.getElementById('connection-text');
+            if (!badge || !text) return;
+
+            if (status === 'connected') {
+                badge.className = "inline-flex items-center gap-2 bg-emerald-600/20 backdrop-blur-md border border-emerald-500/30 text-emerald-200 px-4 py-2 rounded-full text-xs md:text-sm font-medium shadow-sm";
+                text.textContent = "Awan: Disambung & Segerak";
+                badge.querySelector('span').className = "w-2 h-2 rounded-full bg-emerald-400";
+            } else {
+                badge.className = "inline-flex items-center gap-2 bg-slate-600/20 backdrop-blur-md border border-slate-500/30 text-slate-300 px-4 py-2 rounded-full text-xs md:text-sm font-medium shadow-sm";
+                text.textContent = "Mod Tempatan (Tiada Awan)";
+                badge.querySelector('span').className = "w-2 h-2 rounded-full bg-slate-400";
+            }
+        }
+
+        async function setupFirebase() {
+            if (!firebaseConfig) {
+                console.warn("No Firebase configuration found. Defaulting to local memory state.");
+                updateConnectionBadge('local');
+                fallbackLocalData();
+                return;
+            }
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Authentication (RULE 3 - Auth Before Queries)
+                if (customToken) {
+                    await signInWithCustomToken(auth, customToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                isCloudConnected = true;
+                updateConnectionBadge('connected');
+                tunjukMesej("Sambungan Awan berjaya disegerakkan!", "success");
+
+                // Pasang Real-Time Listener untuk Item 8 (Borang Skor)
+                onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', 'skor'), (docSnap) => {
+                    if (docSnap.exists() && docSnap.data().rows) {
+                        stateSkor = docSnap.data().rows;
+                    } else {
+                        stateSkor = binaDataAwal();
+                        hantarKemaskiniAwan('skor', stateSkor);
+                    }
+                    if (currentModalType === 'skor') renderSkorTable();
+                }, (err) => {
+                    console.error("Firestore error (skor):", err);
+                });
+
+                // Pasang Real-Time Listener untuk Item 9 (Borang Keberhasilan)
+                onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', 'keberhasilan'), (docSnap) => {
+                    if (docSnap.exists() && docSnap.data().rows) {
+                        stateKeberhasilan = docSnap.data().rows;
+                    } else {
+                        stateKeberhasilan = binaDataAwal();
+                        hantarKemaskiniAwan('keberhasilan', stateKeberhasilan);
+                    }
+                    if (currentModalType === 'keberhasilan') renderKeberhasilanTable();
+                }, (err) => {
+                    console.error("Firestore error (keberhasilan):", err);
+                });
+
+                // Pasang Real-Time Listener untuk Item 10 (Jadual)
+                onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', 'jadual'), (docSnap) => {
+                    if (docSnap.exists() && docSnap.data().rows) {
+                        stateJadual = docSnap.data().rows;
+                    } else {
+                        stateJadual = binaJadualAwal();
+                        hantarKemaskiniAwan('jadual', stateJadual);
+                    }
+                    if (currentModalType === 'jadual') renderJadualTable();
+                }, (err) => {
+                    console.error("Firestore error (jadual):", err);
+                });
+
+            } catch (error) {
+                console.error("Firebase Initialization failed:", error);
+                updateConnectionBadge('local');
+                fallbackLocalData();
+            }
+        }
+
+        function fallbackLocalData() {
+            stateSkor = binaDataAwal();
+            stateKeberhasilan = binaDataAwal();
+            stateJadual = binaJadualAwal();
+        }
+
+        function binaDataAwal() {
+            return SENARAI_PYD.map((nama, i) => ({
+                id: `row-${i + 1}`,
+                nama: nama,
+                date1: "",
+                sig1: "",
+                date2: "",
+                sig2: "",
+                catatan: ""
+            }));
+        }
+
+        function binaJadualAwal() {
+            return SENARAI_PYD.map((nama, i) => ({
+                id: `jadual-${i + 1}`,
+                nama: nama,
+                dates: ["", "", "", "", "", "", ""],
+                sigs: ["", "", "", "", "", "", ""],
+                catatan: ""
+            }));
+        }
+
+        async function hantarKemaskiniAwan(type, data) {
+            if (!isCloudConnected || !db) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', type);
+                await setDoc(docRef, { rows: data });
+            } catch (error) {
+                console.error(`Gagal mengemas kini awan bagi [${type}]:`, error);
+            }
+        }
+
+        function renderSkorTable() {
+            const tbody = document.getElementById('rekod-tbody');
+            if (!tbody) return;
+            const dataState = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
+
+            tbody.innerHTML = dataState.map((row, index) => {
+                const displaySig1 = row.sig1 
+                    ? `<div class="relative group">
+                         <img src="${row.sig1}" class="max-h-[40px] object-contain pointer-events-none mx-auto" alt="T/T">
+                         <button onclick="window.padamTandatangan('${row.id}', 'sig1')" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-0.5 rounded-full shadow transition-opacity focus:outline-none no-print-col">
+                           <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                         </button>
+                       </div>`
+                    : `<div onclick="window.bukaPadTandatangan('${row.id}', 'pp1')" class="sig-box w-full min-h-[42px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
+                         <span class="text-[10px] text-blue-600 font-bold flex items-center gap-1"><i data-lucide="pen-tool" class="w-3 h-3"></i> T/Tangan</span>
+                       </div>`;
+
+                const displaySig2 = row.sig2
+                    ? `<div class="relative group">
+                         <img src="${row.sig2}" class="max-h-[40px] object-contain pointer-events-none mx-auto" alt="T/T">
+                         <button onclick="window.padamTandatangan('${row.id}', 'sig2')" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-0.5 rounded-full shadow transition-opacity focus:outline-none no-print-col">
+                           <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                         </button>
+                       </div>`
+                    : `<div onclick="window.bukaPadTandatangan('${row.id}', 'pp2')" class="sig-box w-full min-h-[42px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
+                         <span class="text-[10px] text-blue-600 font-bold flex items-center gap-1"><i data-lucide="pen-tool" class="w-3 h-3"></i> T/Tangan</span>
+                       </div>`;
+
+                return `
+                <tr id="${row.id}" class="hover:bg-slate-50 transition-colors">
+                    <td class="border border-black p-2 text-center font-bold bg-slate-50 row-number">${index + 1}</td>
+                    <td class="border border-black p-2 sticky-mobile bg-white sticky-shadow min-w-[180px] md:min-w-[200px]">
+                        <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-1 py-0.5">${row.nama}</span>
+                    </td>
+                    <td class="border border-black p-2 text-center bg-white">
+                        <div class="flex flex-col gap-1 items-center">
+                            <input type="date" value="${row.date1 || ''}" onchange="window.kemaskiniDataInput('${row.id}', 'date1', this.value)" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            ${displaySig1}
+                        </div>
+                    </td>
+                    <td class="border border-black p-2 text-center bg-white">
+                        <div class="flex flex-col gap-1 items-center">
+                            <input type="date" value="${row.date2 || ''}" onchange="window.kemaskiniDataInput('${row.id}', 'date2', this.value)" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            ${displaySig2}
+                        </div>
+                    </td>
+                    <td class="border border-black p-1 bg-white">
+                        <input type="text" value="${row.catatan || ''}" onchange="window.kemaskiniDataInput('${row.id}', 'catatan', this.value)" placeholder="Catatan..." class="w-full px-2 py-2 focus:bg-amber-50 outline-none text-xs">
+                    </td>
+                    <td class="border border-black p-1 text-center align-middle no-print-col bg-slate-50">
+                        <button onclick="window.padamBaris('${row.id}', 'rekod-tbody')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function renderJadualTable() {
+            const tbody = document.getElementById('jadual-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = stateJadual.map((row, index) => {
+                let selaAktivitiHtml = '';
+                for (let i = 0; i < 7; i++) {
+                    const tarikhNilai = row.dates[i] || '';
+                    const signatureNilai = row.sigs[i];
+
+                    const displaySig = signatureNilai
+                        ? `<div class="relative group">
+                             <img src="${signatureNilai}" class="max-h-[30px] object-contain pointer-events-none mx-auto" alt="T/T">
+                             <button onclick="window.padamTandatanganJadual('${row.id}', ${i})" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-0.5 rounded-full shadow transition-opacity focus:outline-none no-print-col">
+                               <i data-lucide="x" class="w-2.5 h-2.5"></i>
+                             </button>
+                           </div>`
+                        : `<div onclick="window.bukaPadTandatangan('${row.id}', 'act-${i}')" class="sig-box w-full min-h-[36px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
+                             <span class="text-[9px] text-blue-600 font-bold flex items-center gap-0.5"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> T/T</span>
+                           </div>`;
+
+                    selaAktivitiHtml += `
+                    <td class="border border-black p-2 text-center bg-white w-[110px] min-w-[110px]">
+                        <div class="flex flex-col gap-1 items-center">
+                            <input type="date" value="${tarikhNilai}" onchange="window.kemaskiniDataJadual('${row.id}', ${i}, 'date', this.value)" class="w-full border border-slate-300 rounded px-1 py-1 text-[10px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            ${displaySig}
+                        </div>
+                    </td>`;
+                }
+
+                return `
+                <tr id="${row.id}" class="hover:bg-slate-50 transition-colors">
+                    <td class="border border-black p-1 text-center font-bold bg-slate-50 row-number">${index + 1}</td>
+                    <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[140px] md:min-w-[160px]">
+                        <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-1.5 py-0.5">${row.nama}</span>
+                    </td>
+                    ${selaAktivitiHtml}
+                    <td class="border border-black p-1 bg-white">
+                        <input type="text" value="${row.catatan || ''}" onchange="window.kemaskiniDataJadual('${row.id}', null, 'catatan', this.value)" placeholder="Catatan perancangan..." class="w-full border-0 outline-none text-xs p-1 focus:bg-amber-50">
+                    </td>
+                    <td class="border border-black p-1 text-center align-middle no-print-col bg-slate-50">
+                        <button onclick="window.padamBaris('${row.id}', 'jadual-tbody')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        window.kemaskiniDataInput = function(rowId, field, value) {
+            const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
+            const target = state.find(r => r.id === rowId);
+            if (target) {
+                target[field] = value;
+                hantarKemaskiniAwan(currentModalType, state);
+            }
+        };
+
+        window.kemaskiniDataJadual = function(rowId, colIndex, type, value) {
+            const target = stateJadual.find(r => r.id === rowId);
+            if (target) {
+                if (type === 'date') {
+                    target.dates[colIndex] = value;
+                } else if (type === 'catatan') {
+                    target.catatan = value;
+                }
+                hantarKemaskiniAwan('jadual', stateJadual);
+            }
+        };
+
+        window.padamTandatangan = function(rowId, field) {
+            const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
+            const target = state.find(r => r.id === rowId);
+            if (target) {
+                target[field] = "";
+                hantarKemaskiniAwan(currentModalType, state);
+                tunjukMesej("Tandatangan dipadam. Anda boleh menandatangan semula.", "success");
+                if (currentModalType === 'skor') renderSkorTable();
+                else renderKeberhasilanTable();
+            }
+        };
+
+        window.padamTandatanganJadual = function(rowId, colIndex) {
+            const target = stateJadual.find(r => r.id === rowId);
+            if (target) {
+                target.sigs[colIndex] = "";
+                hantarKemaskiniAwan('jadual', stateJadual);
+                tunjukMesej("Tandatangan jadual dipadam.", "success");
+                renderJadualTable();
+            }
         };
 
         function initApp() {
@@ -521,12 +831,10 @@
             container.appendChild(toast);
             lucide.createIcons();
             
-            // Animasi masuk
             setTimeout(() => {
                 toast.classList.remove('translate-y-2', 'opacity-0');
             }, 50);
 
-            // Animasi keluar & padam
             setTimeout(() => {
                 toast.classList.add('translate-y-2', 'opacity-0');
                 setTimeout(() => {
@@ -539,7 +847,6 @@
             const list1 = document.getElementById('list-1');
             const list3 = document.getElementById('list-3');
 
-            // Kandungan Fail Pengurusan (Menu 1 - 12 Item sepadan pautan & tindakan)
             const kandungan1 = [
                 { nama: '1. Fail Pengurusan PBPPP (Fail Terperingkat)', url: 'https://drive.google.com/drive/folders/1ZVpagwoEX7O6NGSOxSSmELTVRVQEfoJb?usp=sharing', isModal: false },
                 { nama: '2. Surat Arahan Pelaksanaan PBPPP', url: 'https://drive.google.com/file/d/11-uEEi3PDU77XJjCbGuNS5FwS4I4E-Lf/view?usp=sharing', isModal: false },
@@ -555,7 +862,6 @@
                 { nama: '12. Surat panggilan & minit mesyuarat pelarasan markah', url: 'https://drive.google.com/file/d/10BZz2pVE9fsTgFxeZcyseRChwdqO8y98/view?usp=drive_link', isModal: false }
             ];
 
-            // Kandungan Pegawai Penilai (Menu 3)
             const kandungan3 = [
                 { nama: '1. AZIZ BIN TAHIR', url: 'https://drive.google.com/drive/folders/1zJmivTr5zt5mvv4tafp7A8Lz9VT_8-lA?usp=sharing' },
                 { nama: '2. MOHAMAD ABIDIN BIN SIPEK', url: 'https://drive.google.com/drive/folders/14UrXk60RCrI8-wBBzLXmajTKrLuIvlI8?usp=sharing' },
@@ -568,12 +874,12 @@
                 list1.innerHTML = kandungan1.map(item => `
                     <li>
                         ${item.isModal ? `
-                            <button onclick="${item.aksi}" class="w-full flex items-start gap-3 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-[11px] sm:text-xs text-left group/btn">
+                            <button onclick="${item.aksi}" class="w-full flex items-start gap-2.5 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
                                 <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors shrink-0 mt-0.5"></i>
                                 <span class="break-words whitespace-normal leading-relaxed flex-1">${item.nama}</span>
                             </button>
                         ` : `
-                            <button onclick="window.open('${item.url}', '_blank')" class="w-full flex items-start gap-3 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-[11px] sm:text-xs text-left group/btn">
+                            <button onclick="window.open('${item.url}', '_blank')" class="w-full flex items-start gap-2.5 p-3 md:p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-semibold transition-all text-xs text-left group/btn">
                                 <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover/btn:text-blue-500 transition-colors shrink-0 mt-0.5"></i>
                                 <span class="break-words whitespace-normal leading-relaxed flex-1">${item.nama}</span>
                             </button>
@@ -596,7 +902,7 @@
             lucide.createIcons();
         }
 
-        function toggleMenu(id) {
+        window.toggleMenu = function(id) {
             const menu = document.getElementById(`menu-${id}`);
             const chevron = document.getElementById(`chevron-${id}`);
             const kad = document.getElementById(`card-${id}`);
@@ -604,19 +910,17 @@
             if (!menu || !chevron) return;
 
             if (menu.classList.contains('max-h-0')) {
-                // Buka Menu
                 menu.classList.remove('max-h-0', 'opacity-0');
                 menu.classList.add('max-h-[1500px]', 'opacity-100');
                 chevron.classList.add('rotate-90');
                 if (kad) kad.classList.add('ring-4', id === 1 ? 'ring-blue-400/30' : 'ring-emerald-400/30');
             } else {
-                // Tutup Menu
                 menu.classList.remove('max-h-[1500px]', 'opacity-100');
                 menu.classList.add('max-h-0', 'opacity-0');
                 chevron.classList.remove('rotate-90');
                 if (kad) kad.classList.remove('ring-4', 'ring-blue-400/30', 'ring-emerald-400/30');
             }
-        }
+        };
 
         function tunjukModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -640,152 +944,103 @@
             document.body.classList.remove('no-scroll');
         }
 
-        // =======================================================
-        // MODUL 1: REKOD PENYERAHAN BORANG (ITEM 8 & 9)
-        // =======================================================
-        let rekodRowIndex = 0;
-
-        function openRekodModal(jenisPP) {
+        window.openRekodModal = function(jenisPP) {
             const mainTitle = document.getElementById('pdf-main-title');
             const headerTitle = document.getElementById('modal-header-title');
 
             if (jenisPP === 1) {
-                headerTitle.textContent = ""; 
+                currentModalType = "skor";
+                headerTitle.textContent = "Rekod Penyerahan Borang Skor";
                 mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG SKOR KEPADA PYD";
+                renderSkorTable();
             } else {
-                headerTitle.textContent = ""; 
+                currentModalType = "keberhasilan";
+                headerTitle.textContent = "Rekod Penyerahan Borang Keberhasilan";
                 mainTitle.textContent = "REKOD PP MENYERAHKAN SALINAN BORANG KEBERHASILAN KEPADA PYD";
-            }
-
-            const tbody = document.getElementById('rekod-tbody');
-            if (tbody && tbody.children.length === 0) {
-                rekodRowIndex = 0;
-                SENARAI_PYD.forEach(nama => addRow(nama));
+                renderKeberhasilanTable();
             }
             tunjukModal('rekod-modal');
-        }
+        };
 
-        function closeRekodModal() { sembunyiModal('rekod-modal'); }
+        window.closeRekodModal = function() {
+            currentModalType = "";
+            sembunyiModal('rekod-modal');
+        };
 
-        function addRow(namaSediaAda = "") {
-            rekodRowIndex++;
-            const tbody = document.getElementById('rekod-tbody');
-            const tr = document.createElement('tr');
-            tr.id = `rekod-row-${rekodRowIndex}`;
-            tr.className = "hover:bg-slate-50 transition-colors";
+        window.addRow = function() {
+            const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
+            const newIndex = state.length + 1;
+            
+            const namaSediaAda = prompt("Sila masukkan nama PYD Baharu:");
+            if (!namaSediaAda || namaSediaAda.trim() === "") return;
 
-            tr.innerHTML = `
-                <td class="border border-black p-2 text-center font-bold bg-slate-50 row-number"></td>
-                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[180px] md:min-w-[200px]">
-                    <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-2 py-1">${namaSediaAda}</span>
-                </td>
-                <td class="border border-black p-2 text-center bg-white">
-                    <div class="flex flex-col gap-1 items-center">
-                        <input type="date" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                        <div onclick="bukaPadTandatangan('${tr.id}', 'pp1')" class="sig-box w-full min-h-[42px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
-                            <span class="text-[10px] text-blue-600 font-bold flex items-center gap-1"><i data-lucide="pen-tool" class="w-3 h-3"></i> T/Tangan</span>
-                        </div>
-                    </div>
-                </td>
-                <td class="border border-black p-2 text-center bg-white">
-                    <div class="flex flex-col gap-1 items-center">
-                        <input type="date" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                        <div onclick="bukaPadTandatangan('${tr.id}', 'pp2')" class="sig-box w-full min-h-[42px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
-                            <span class="text-[10px] text-blue-600 font-bold flex items-center gap-1"><i data-lucide="pen-tool" class="w-3 h-3"></i> T/Tangan</span>
-                        </div>
-                    </div>
-                </td>
-                <td class="border border-black p-1 bg-white">
-                    <input type="text" placeholder="Catatan..." class="w-full px-2 py-2 focus:bg-amber-50 outline-none text-xs">
-                </td>
-                <td class="border border-black p-1 text-center align-middle no-print-col bg-slate-50">
-                    <button onclick="padamBaris('${tr.id}', 'rekod-tbody')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-            susunNomborBaris('rekod-tbody');
-            lucide.createIcons();
-        }
-
-        // =======================================================
-        // MODUL 2: JADUAL PENJAJARAN MASA (ITEM 10)
-        // =======================================================
-        let jadualRowIndex = 0;
-
-        function openJadualModal() {
-            const tbody = document.getElementById('jadual-tbody');
-            if (tbody && tbody.children.length === 0) {
-                jadualRowIndex = 0;
-                SENARAI_PYD.forEach(nama => addJadualRow(nama));
-            }
-            tunjukModal('jadual-modal');
-        }
-
-        function closeJadualModal() { sembunyiModal('jadual-modal'); }
-
-        function addJadualRow(namaSediaAda = "") {
-            jadualRowIndex++;
-            const tbody = document.getElementById('jadual-tbody');
-            const tr = document.createElement('tr');
-            tr.id = `jadual-row-${jadualRowIndex}`;
-            tr.className = "hover:bg-slate-50 transition-colors";
-
-            let binaSelsTarikh = '';
-            for (let i = 1; i <= 7; i++) {
-                binaSelsTarikh += `
-                    <td class="border border-black p-2 text-center bg-white w-[110px] min-w-[110px]">
-                        <div class="flex flex-col gap-1 items-center">
-                            <input type="date" class="w-full border border-slate-300 rounded px-1 py-1 text-[10px] outline-none text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                            <div onclick="bukaPadTandatangan('${tr.id}', 'act-${i}')" class="sig-box w-full min-h-[36px] flex items-center justify-center border border-dashed border-blue-300 rounded bg-blue-50/30 hover:bg-blue-50 cursor-pointer mt-1 transition-colors">
-                                <span class="text-[9px] text-blue-600 font-bold flex items-center gap-0.5"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> T/T</span>
-                            </div>
-                        </div>
-                    </td>
-                `;
-            }
-
-            tr.innerHTML = `
-                <td class="border border-black p-1 text-center font-bold bg-slate-50 row-number"></td>
-                <td class="border border-black p-1 sticky-mobile bg-white sticky-shadow min-w-[140px] md:min-w-[160px]">
-                    <span class="font-bold text-[11px] md:text-xs block break-words whitespace-normal leading-tight uppercase px-2 py-1">${namaSediaAda}</span>
-                </td>
-                ${binaSelsTarikh}
-                <td class="border border-black p-1 bg-white">
-                    <input type="text" placeholder="Catatan perancangan..." class="w-full border-0 outline-none text-xs p-1 focus:bg-amber-50">
-                </td>
-                <td class="border border-black p-1 text-center align-middle no-print-col bg-slate-50">
-                    <button onclick="padamBaris('${tr.id}', 'jadual-tbody')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-            susunNomborBaris('jadual-tbody');
-            lucide.createIcons();
-        }
-
-        function padamBaris(rowId, tbodyId) {
-            const row = document.getElementById(rowId);
-            if (row) {
-                row.remove();
-                susunNomborBaris(tbodyId);
-            }
-        }
-
-        function susunNomborBaris(tbodyId) {
-            const tbody = document.getElementById(tbodyId);
-            if (!tbody) return;
-            const baris = tbody.querySelectorAll('.row-number');
-            baris.forEach((td, index) => {
-                td.textContent = index + 1;
+            state.push({
+                id: `row-${Date.now()}`,
+                nama: namaSediaAda.toUpperCase(),
+                date1: "",
+                sig1: "",
+                date2: "",
+                sig2: "",
+                catatan: ""
             });
-        }
 
-        // =======================================================
-        // PAD TANDATANGAN DIGITAL LOGIK
-        // =======================================================
+            hantarKemaskiniAwan(currentModalType, state);
+            if (currentModalType === 'skor') renderSkorTable();
+            else renderKeberhasilanTable();
+            tunjukMesej("Nama PYD berjaya ditambah!", "success");
+        };
+
+        window.openJadualModal = function() {
+            currentModalType = "jadual";
+            renderJadualTable();
+            tunjukModal('jadual-modal');
+        };
+
+        window.closeJadualModal = function() {
+            currentModalType = "";
+            sembunyiModal('jadual-modal');
+        };
+
+        window.addJadualRow = function() {
+            const namaSediaAda = prompt("Sila masukkan nama PYD Baharu untuk Jadual:");
+            if (!namaSediaAda || namaSediaAda.trim() === "") return;
+
+            stateJadual.push({
+                id: `jadual-${Date.now()}`,
+                nama: namaSediaAda.toUpperCase(),
+                dates: ["", "", "", "", "", "", ""],
+                sigs: ["", "", "", "", "", "", ""],
+                catatan: ""
+            });
+
+            hantarKemaskiniAwan('jadual', stateJadual);
+            renderJadualTable();
+            tunjukMesej("Nama PYD Jadual berjaya ditambah!", "success");
+        };
+
+        window.padamBaris = function(rowId, tbodyId) {
+            if (!confirm("Adakah anda pasti untuk memadam baris rekod ini?")) return;
+
+            if (tbodyId === 'rekod-tbody') {
+                const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
+                const filtered = state.filter(r => r.id !== rowId);
+                if (currentModalType === 'skor') {
+                    stateSkor = filtered;
+                    hantarKemaskiniAwan('skor', stateSkor);
+                    renderSkorTable();
+                } else {
+                    stateKeberhasilan = filtered;
+                    hantarKemaskiniAwan('keberhasilan', stateKeberhasilan);
+                    renderKeberhasilanTable();
+                }
+            } else {
+                stateJadual = stateJadual.filter(r => r.id !== rowId);
+                hantarKemaskiniAwan('jadual', stateJadual);
+                renderJadualTable();
+            }
+            tunjukMesej("Rekod berjaya dipadam dari sistem.", "success");
+        };
+
         let signaturePad;
         const kanvas = document.getElementById('sig-canvas');
         let sasaranRowId = null;
@@ -801,17 +1056,17 @@
             });
         }
 
-        function bukaPadTandatangan(rowId, jenisKolum) {
+        window.bukaPadTandatangan = function(rowId, jenisKolum) {
             sasaranRowId = rowId;
             sasaranKolum = jenisKolum;
             tunjukModal('sig-modal');
             setTimeout(() => {
                 laraskanSaizKanvas();
             }, 150);
-        }
+        };
 
-        function closeSignaturePad() { sembunyiModal('sig-modal'); }
-        function clearSignature() { if (signaturePad) signaturePad.clear(); }
+        window.closeSignaturePad = function() { sembunyiModal('sig-modal'); };
+        window.clearSignature = function() { if (signaturePad) signaturePad.clear(); };
 
         function laraskanSaizKanvas() {
             if (!kanvas) return;
@@ -826,49 +1081,46 @@
             }
         }
 
-        function saveSignature() {
+        window.saveSignature = function() {
             if (!signaturePad || signaturePad.isEmpty()) {
                 tunjukMesej("Sila turunkan tandatangan terlebih dahulu sebelum pengesahan.", "error");
                 return;
             }
 
             const dataURL = signaturePad.toDataURL('image/png');
-            const rowSasaran = document.getElementById(sasaranRowId);
-            
-            if (rowSasaran) {
-                if (sasaranKolum.startsWith('act-')) {
-                    const actIndex = parseInt(sasaranKolum.split('-')[1]) - 1;
-                    const kotakSig = rowSasaran.querySelectorAll('.sig-box')[actIndex];
-                    
-                    if (kotakSig) {
-                        kotakSig.innerHTML = `<img src="${dataURL}" class="max-h-[30px] object-contain pointer-events-none mx-auto" alt="T/T">`;
-                        kotakSig.className = "sig-box w-full min-h-[36px] flex items-center justify-center border border-solid border-emerald-400 rounded bg-emerald-50/60 mt-1";
+
+            if (currentModalType === 'jadual') {
+                const target = stateJadual.find(r => r.id === sasaranRowId);
+                if (target && sasaranKolum.startsWith('act-')) {
+                    const actIndex = parseInt(sasaranKolum.split('-')[1]);
+                    target.sigs[actIndex] = dataURL;
+                    hantarKemaskiniAwan('jadual', stateJadual);
+                    renderJadualTable();
+                }
+            } else {
+                const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
+                const target = state.find(r => r.id === sasaranRowId);
+                if (target) {
+                    if (sasaranKolum === 'pp1') {
+                        target.sig1 = dataURL;
+                    } else if (sasaranKolum === 'pp2') {
+                        target.sig2 = dataURL;
                     }
-                } else {
-                    const indeksSellular = sasaranKolum === 'pp1' ? 0 : 1;
-                    const kotakSig = rowSasaran.querySelectorAll('.sig-box')[indeksSellular];
-                    
-                    if (kotakSig) {
-                        kotakSig.innerHTML = `<img src="${dataURL}" class="max-h-[40px] object-contain pointer-events-none mx-auto" alt="Tandatangan Sah">`;
-                        kotakSig.className = "sig-box w-full min-h-[42px] flex items-center justify-center border border-solid border-emerald-400 rounded bg-emerald-50/60 mt-1";
-                    }
+                    hantarKemaskiniAwan(currentModalType, state);
+                    if (currentModalType === 'skor') renderSkorTable();
+                    else renderKeberhasilanTable();
                 }
             }
-            closeSignaturePad();
-            tunjukMesej("Tandatangan berjaya dimasukkan!", "success");
-        }
 
-        // =======================================================
-        // EKSPORT PDF MENGGUNAKAN HTML2PDF
-        // =======================================================
+            closeSignaturePad();
+            tunjukMesej("Tandatangan berjaya disimpan secara automatik ke awan!", "success");
+        };
+
         function janaGayaCetak() {
             const style = document.createElement('style');
             style.id = 'gaya-cetak-pdf';
             style.innerHTML = `
-                /* Sembunyikan Lajur Aksi & Butang */
-                .no-print-col, .no-print-btn, button[onclick*="padamBaris"] { display: none !important; }
-                
-                /* Tukar Input kepada Teks Bersih */
+                .no-print-col, .no-print-btn, button[onclick*="padamBaris"], button[onclick*="padamTandatangan"] { display: none !important; }
                 input[type="text"] {
                     border: none !important;
                     background: transparent !important;
@@ -878,8 +1130,6 @@
                     padding: 4px !important;
                     font-size: 11px !important;
                 }
-                
-                /* Tukar Input Date kepada Gaya Teks Bersih */
                 input[type="date"] {
                     border: none !important;
                     background: transparent !important;
@@ -888,45 +1138,34 @@
                     text-align: center !important;
                     font-size: 11px !important;
                     -webkit-appearance: none;
-                    -moz-appearance: none;
                     appearance: none;
                 }
-                
                 input[type="date"]::-webkit-calendar-picker-indicator {
                     display: none !important;
-                    -webkit-appearance: none;
                 }
-                
-                /* Struktur Layout Cetakan */
                 .table-container { 
                     overflow-x: visible !important; 
                     width: 100% !important;
                 }
-                
                 table { 
                     width: 100% !important; 
                     min-width: 100% !important; 
                     table-layout: fixed !important; 
                     border-collapse: collapse !important;
                 }
-                
                 th, td { 
                     word-wrap: break-word !important; 
                     white-space: normal !important; 
                     border: 1px solid #000000 !important;
                     padding: 6px !important;
                 }
+                #pdf-content table th:nth-child(1), #pdf-content table td:nth-child(1) { width: 5% !important; }
+                #pdf-content table th:nth-child(2), #pdf-content table td:nth-child(2) { width: 25% !important; }
+                #pdf-content table td:nth-child(3), #pdf-content table td:nth-child(4) { width: 27% !important; }
+                #pdf-content table td:nth-child(5) { width: 16% !important; }
                 
-                /* Pengoptimuman saiz lajur cetakan Rekod (Item 8 & 9) */
-                #pdf-content table th:nth-child(1), #pdf-content table td:nth-child(1) { width: 5% !important; } /* BIL */
-                #pdf-content table th:nth-child(2), #pdf-content table td:nth-child(2) { width: 25% !important; } /* NAMA PYD (dikecilkan dari 35%) */
-                #pdf-content table td:nth-child(3), #pdf-content table td:nth-child(4) { width: 27% !important; } /* TARIKH/TT (diluaskan dari 22%) */
-                #pdf-content table td:nth-child(5) { width: 16% !important; } /* CATATAN */
-                
-                /* Pengoptimuman saiz lajur cetakan Jadual (Item 10) */
-                #pdf-content-jadual table th:nth-child(1), #pdf-content-jadual table td:nth-child(1) { width: 3% !important; } /* BIL */
-                #pdf-content-jadual table th:nth-child(2), #pdf-content-jadual table td:nth-child(2) { width: 14% !important; } /* NAMA PYD (dikecilkan dari 20%) */
-                /* 7 Aktiviti (masing-masing diluaskan dari 9% kepada 10%) */
+                #pdf-content-jadual table th:nth-child(1), #pdf-content-jadual table td:nth-child(1) { width: 3% !important; }
+                #pdf-content-jadual table th:nth-child(2), #pdf-content-jadual table td:nth-child(2) { width: 14% !important; }
                 #pdf-content-jadual table td:nth-child(3),
                 #pdf-content-jadual table td:nth-child(4),
                 #pdf-content-jadual table td:nth-child(5),
@@ -934,25 +1173,21 @@
                 #pdf-content-jadual table td:nth-child(7),
                 #pdf-content-jadual table td:nth-child(8),
                 #pdf-content-jadual table td:nth-child(9) { width: 10% !important; }
-                #pdf-content-jadual table td:nth-child(10) { width: 13% !important; } /* CATATAN KHAS */
+                #pdf-content-jadual table td:nth-child(10) { width: 13% !important; }
 
-                /* Kotak Tandatangan */
                 .sig-box {
                     border: none !important;
                     background: transparent !important;
                     min-height: auto !important;
                     margin-top: 2px !important;
                 }
-                
                 .sig-box img {
                     max-height: 25px !important;
                     width: auto !important;
                 }
-                
                 .sig-box span {
                     display: none !important; 
                 }
-
                 .sticky-mobile { 
                     position: static !important; 
                     box-shadow: none !important; 
@@ -976,16 +1211,18 @@
             });
         }
 
-        function exportPDF() {
+        window.exportPDF = function() {
             const kandungan = document.getElementById('pdf-content');
             if (!kandungan) return;
             
             persediaanNilaiInput(kandungan);
             janaGayaCetak();
 
+            const namaFail = currentModalType === 'skor' ? 'Rekod_Salinan_Borang_Skor' : 'Rekod_Salinan_Borang_Keberhasilan';
+
             const konfigurasi = {
                 margin: [10, 10, 10, 10],
-                filename: `Rekod_Penyerahan_Borang_ePBPPP_${new Date().toISOString().slice(0,10)}.pdf`,
+                filename: `${namaFail}_ePBPPP_${new Date().toISOString().slice(0,10)}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2.5, 
@@ -1006,9 +1243,9 @@
                 lupusGayaCetak();
                 tunjukMesej("Gagal menjana PDF.", "error");
             });
-        }
+        };
 
-        function exportJadualPDF() {
+        window.exportJadualPDF = function() {
             const kandungan = document.getElementById('pdf-content-jadual');
             if (!kandungan) return;
             
@@ -1038,7 +1275,7 @@
                 lupusGayaCetak();
                 tunjukMesej("Gagal menjana PDF Jadual.", "error");
             });
-        }
+        };
     </script>
 </body>
 </html>
