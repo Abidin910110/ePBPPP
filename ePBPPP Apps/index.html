@@ -455,7 +455,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Senarai Nama PYD Mengikut Urutan Asal (1 - 32)
         const SENARAI_PYD = [
@@ -537,6 +537,40 @@
             }
         }
 
+        // Fungsi menggabungkan data awan dengan 32 nama PYD asal supaya susunan dan senarai sentiasa utuh
+        function gabungDataLalai(cloudRows, jenis) {
+            return SENARAI_PYD.map((nama, i) => {
+                const idLalai = jenis === 'jadual' ? `jadual-${i + 1}` : `row-${i + 1}`;
+                const match = cloudRows.find(r => r.nama === nama || r.id === idLalai);
+                if (match) {
+                    return {
+                        id: idLalai,
+                        nama: nama,
+                        ...match
+                    };
+                }
+                if (jenis === 'jadual') {
+                    return {
+                        id: idLalai,
+                        nama: nama,
+                        dates: ["", "", "", "", "", "", ""],
+                        sigs: ["", "", "", "", "", "", ""],
+                        catatan: ""
+                    };
+                } else {
+                    return {
+                        id: idLalai,
+                        nama: nama,
+                        date1: "",
+                        sig1: "",
+                        date2: "",
+                        sig2: "",
+                        catatan: ""
+                    };
+                }
+            });
+        }
+
         async function setupFirebase() {
             try {
                 const app = initializeApp(firebaseConfig);
@@ -557,40 +591,37 @@
                 updateConnectionBadge('connected');
                 tunjukMesej("Sambungan Awan berjaya disegerakkan!", "success");
 
-                // Pasang Real-Time Listener untuk Item 8 (Borang Skor)
-                onSnapshot(doc(db, 'epbppp_data', 'skor'), (docSnap) => {
-                    if (docSnap.exists() && docSnap.data().rows) {
-                        stateSkor = docSnap.data().rows;
-                    } else {
-                        stateSkor = binaDataAwal();
-                        hantarKemaskiniAwan('skor', stateSkor);
-                    }
+                // Real-Time Listener: Item 8 (Borang Skor) menggunakan struktur koleksi per-baris
+                onSnapshot(collection(db, 'epbppp_skor'), (querySnapshot) => {
+                    const temp = [];
+                    querySnapshot.forEach((doc) => {
+                        temp.push({ id: doc.id, ...doc.data() });
+                    });
+                    stateSkor = gabungDataLalai(temp, 'skor');
                     if (currentModalType === 'skor') renderSkorTable();
                 }, (err) => {
                     console.error("Firestore error (skor):", err);
                 });
 
-                // Pasang Real-Time Listener untuk Item 9 (Borang Keberhasilan)
-                onSnapshot(doc(db, 'epbppp_data', 'keberhasilan'), (docSnap) => {
-                    if (docSnap.exists() && docSnap.data().rows) {
-                        stateKeberhasilan = docSnap.data().rows;
-                    } else {
-                        stateKeberhasilan = binaDataAwal();
-                        hantarKemaskiniAwan('keberhasilan', stateKeberhasilan);
-                    }
+                // Real-Time Listener: Item 9 (Borang Keberhasilan) menggunakan struktur koleksi per-baris
+                onSnapshot(collection(db, 'epbppp_keberhasilan'), (querySnapshot) => {
+                    const temp = [];
+                    querySnapshot.forEach((doc) => {
+                        temp.push({ id: doc.id, ...doc.data() });
+                    });
+                    stateKeberhasilan = gabungDataLalai(temp, 'keberhasilan');
                     if (currentModalType === 'keberhasilan') renderSkorTable();
                 }, (err) => {
                     console.error("Firestore error (keberhasilan):", err);
                 });
 
-                // Pasang Real-Time Listener untuk Item 10 (Jadual)
-                onSnapshot(doc(db, 'epbppp_data', 'jadual'), (docSnap) => {
-                    if (docSnap.exists() && docSnap.data().rows) {
-                        stateJadual = docSnap.data().rows;
-                    } else {
-                        stateJadual = binaJadualAwal();
-                        hantarKemaskiniAwan('jadual', stateJadual);
-                    }
+                // Real-Time Listener: Item 10 (Jadual) menggunakan struktur koleksi per-baris
+                onSnapshot(collection(db, 'epbppp_jadual'), (querySnapshot) => {
+                    const temp = [];
+                    querySnapshot.forEach((doc) => {
+                        temp.push({ id: doc.id, ...doc.data() });
+                    });
+                    stateJadual = gabungDataLalai(temp, 'jadual');
                     if (currentModalType === 'jadual') renderJadualTable();
                 }, (err) => {
                     console.error("Firestore error (jadual):", err);
@@ -604,40 +635,30 @@
         }
 
         function fallbackLocalData() {
-            stateSkor = binaDataAwal();
-            stateKeberhasilan = binaDataAwal();
-            stateJadual = binaJadualAwal();
+            stateSkor = gabungDataLalai([], 'skor');
+            stateKeberhasilan = gabungDataLalai([], 'keberhasilan');
+            stateJadual = gabungDataLalai([], 'jadual');
         }
 
-        function binaDataAwal() {
-            return SENARAI_PYD.map((nama, i) => ({
-                id: `row-${i + 1}`,
-                nama: nama,
-                date1: "",
-                sig1: "",
-                date2: "",
-                sig2: "",
-                catatan: ""
-            }));
-        }
-
-        function binaJadualAwal() {
-            return SENARAI_PYD.map((nama, i) => ({
-                id: `jadual-${i + 1}`,
-                nama: nama,
-                dates: ["", "", "", "", "", "", ""],
-                sigs: ["", "", "", "", "", "", ""],
-                catatan: ""
-            }));
-        }
-
-        async function hantarKemaskiniAwan(type, data) {
+        // Fungsi menyimpan rekod baris spesifik sahaja (Menjimatkan had 1MB Firestore)
+        async function hantarKemaskiniAwanRow(type, rowId, rowData) {
             if (!isCloudConnected || !db) return;
             try {
-                const docRef = doc(db, 'epbppp_data', type);
-                await setDoc(docRef, { rows: data });
+                const koleksiId = type === 'skor' ? 'epbppp_skor' : (type === 'keberhasilan' ? 'epbppp_keberhasilan' : 'epbppp_jadual');
+                await setDoc(doc(db, koleksiId, rowId), rowData);
             } catch (error) {
-                console.error(`Gagal mengemas kini awan bagi [${type}]:`, error);
+                console.error(`Gagal mengemas kini awan bagi [${type}] Row [${rowId}]:`, error);
+            }
+        }
+
+        // Fungsi memadam satu baris dokumen dari awan
+        async function padamBarisAwanRow(type, rowId) {
+            if (!isCloudConnected || !db) return;
+            try {
+                const koleksiId = type === 'skor' ? 'epbppp_skor' : (type === 'keberhasilan' ? 'epbppp_keberhasilan' : 'epbppp_jadual');
+                await deleteDoc(doc(db, koleksiId, rowId));
+            } catch (error) {
+                console.error(`Gagal memadam dokumen awan bagi [${type}] Row [${rowId}]:`, error);
             }
         }
 
@@ -755,7 +776,7 @@
             const target = state.find(r => r.id === rowId);
             if (target) {
                 target[field] = value;
-                hantarKemaskiniAwan(currentModalType, state);
+                hantarKemaskiniAwanRow(currentModalType, rowId, target);
             }
         };
 
@@ -767,7 +788,7 @@
                 } else if (type === 'catatan') {
                     target.catatan = value;
                 }
-                hantarKemaskiniAwan('jadual', stateJadual);
+                hantarKemaskiniAwanRow('jadual', rowId, target);
             }
         };
 
@@ -776,7 +797,7 @@
             const target = state.find(r => r.id === rowId);
             if (target) {
                 target[field] = "";
-                hantarKemaskiniAwan(currentModalType, state);
+                hantarKemaskiniAwanRow(currentModalType, rowId, target);
                 tunjukMesej("Tandatangan dipadam. Sila tandatangan semula.", "success");
                 renderSkorTable();
             }
@@ -786,7 +807,7 @@
             const target = stateJadual.find(r => r.id === rowId);
             if (target) {
                 target.sigs[colIndex] = "";
-                hantarKemaskiniAwan('jadual', stateJadual);
+                hantarKemaskiniAwanRow('jadual', rowId, target);
                 tunjukMesej("Tandatangan jadual dipadam.", "success");
                 renderJadualTable();
             }
@@ -976,17 +997,19 @@
             const namaSediaAda = prompt("Sila masukkan nama PYD Baharu:");
             if (!namaSediaAda || namaSediaAda.trim() === "") return;
 
-            state.push({
-                id: `row-${Date.now()}`,
+            const rowId = `row-${Date.now()}`;
+            const rowData = {
+                id: rowId,
                 nama: namaSediaAda.toUpperCase(),
                 date1: "",
                 sig1: "",
                 date2: "",
                 sig2: "",
                 catatan: ""
-            });
+            };
 
-            hantarKemaskiniAwan(currentModalType, state);
+            state.push(rowData);
+            hantarKemaskiniAwanRow(currentModalType, rowId, rowData);
             renderSkorTable();
             tunjukMesej("Nama PYD berjaya ditambah!", "success");
         };
@@ -1006,36 +1029,37 @@
             const namaSediaAda = prompt("Sila masukkan nama PYD Baharu untuk Jadual:");
             if (!namaSediaAda || namaSediaAda.trim() === "") return;
 
-            stateJadual.push({
-                id: `jadual-${Date.now()}`,
+            const rowId = `jadual-${Date.now()}`;
+            const rowData = {
+                id: rowId,
                 nama: namaSediaAda.toUpperCase(),
                 dates: ["", "", "", "", "", "", ""],
                 sigs: ["", "", "", "", "", "", ""],
                 catatan: ""
-            });
+            };
 
-            hantarKemaskiniAwan('jadual', stateJadual);
+            stateJadual.push(rowData);
+            hantarKemaskiniAwanRow('jadual', rowId, rowData);
             renderJadualTable();
             tunjukMesej("Nama PYD Jadual berjaya ditambah!", "success");
         };
 
         window.padamBaris = function(rowId, tbodyId) {
-            if (!confirm("Adakah anda pasti untuk memadam baris rekod ini?")) return;
+            if (!confirm("Adakah anda pasti untuk memadam baris rekod ini secara kekal dari awan?")) return;
 
             if (tbodyId === 'rekod-tbody') {
                 const state = currentModalType === 'skor' ? stateSkor : stateKeberhasilan;
                 const filtered = state.filter(r => r.id !== rowId);
                 if (currentModalType === 'skor') {
                     stateSkor = filtered;
-                    hantarKemaskiniAwan('skor', stateSkor);
                 } else {
                     stateKeberhasilan = filtered;
-                    hantarKemaskiniAwan('keberhasilan', stateKeberhasilan);
                 }
+                padamBarisAwanRow(currentModalType, rowId);
                 renderSkorTable();
             } else {
                 stateJadual = stateJadual.filter(r => r.id !== rowId);
-                hantarKemaskiniAwan('jadual', stateJadual);
+                padamBarisAwanRow('jadual', rowId);
                 renderJadualTable();
             }
             tunjukMesej("Rekod berjaya dipadam dari sistem.", "success");
@@ -1094,7 +1118,7 @@
                 if (target && sasaranKolum.startsWith('act-')) {
                     const actIndex = parseInt(sasaranKolum.split('-')[1]);
                     target.sigs[actIndex] = dataURL;
-                    hantarKemaskiniAwan('jadual', stateJadual);
+                    hantarKemaskiniAwanRow('jadual', sasaranRowId, target);
                     renderJadualTable();
                 }
             } else {
@@ -1106,7 +1130,7 @@
                     } else if (sasaranKolum === 'pp2') {
                         target.sig2 = dataURL;
                     }
-                    hantarKemaskiniAwan(currentModalType, state);
+                    hantarKemaskiniAwanRow(currentModalType, sasaranRowId, target);
                     renderSkorTable();
                 }
             }
