@@ -185,7 +185,7 @@
                     </div>
                     <div class="flex-1">
                         <h3 class="text-sm md:text-base font-bold text-white tracking-wide">Penilaian Kendiri</h3>
-                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Akses kepada Borang Standard 4 dan RPH penilaian kendiri semua PYD</p>
+                        <p class="text-xs text-white/85 mt-1 leading-relaxed font-medium">Borang dan panduan untuk Pegawai Yang Dinilai (PYD) melengkapkan penilaian kendiri.</p>
                     </div>
                     <div class="text-white/80 shrink-0">
                         <i data-lucide="external-link" class="w-4 h-4"></i>
@@ -297,6 +297,7 @@
                                 <thead>
                                     <tr class="bg-slate-100">
                                         <th class="border border-black p-2 w-10 text-center align-middle" rowspan="2">BIL</th>
+                                        <!-- Ruangan Nama PYD Dikecilkan untuk Item 8 & 9 -->
                                         <th class="border border-black p-2 min-w-[180px] md:min-w-[200px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
                                         <th id="pdf-col-title" class="border border-black p-2 text-center" colspan="2">TARIKH & TANDATANGAN PENYERAHAN</th>
                                         <th class="border border-black p-2 min-w-[150px] align-middle text-left" rowspan="2">CATATAN</th>
@@ -357,6 +358,7 @@
                                 <thead>
                                     <tr class="bg-slate-100">
                                         <th class="border border-black p-2 w-10 text-center align-middle" rowspan="2">BIL</th>
+                                        <!-- Ruangan Nama PYD Dikecilkan untuk Item 10 -->
                                         <th class="border border-black p-2 min-w-[140px] md:min-w-[160px] align-middle text-left sticky-header-mobile sticky-shadow bg-slate-100" rowspan="2">NAMA PYD</th>
                                         <th class="border border-black p-2 text-center" colspan="7">AKTIVITI / PERANCANGAN TARIKH PENILAIAN</th>
                                         <th class="border border-black p-2 min-w-[150px] align-middle text-left" rowspan="2">CATATAN KHAS</th>
@@ -452,7 +454,7 @@
     <!-- ======================================================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Senarai Nama PYD Mengikut Urutan Asal (1 - 32)
@@ -503,10 +505,16 @@
         // Penjejak Mod Semasa
         let currentModalType = ""; // "skor", "keberhasilan", "jadual"
 
-        // Firebase Path Configurations (RULE 1 - STRICT PATHS)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'epbppp-skpk-miri';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-        const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // Konfigurasi Firebase Projek Baharu Sedia Ada Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsvpx6t0kxHseDlctL__bBJ3DfOMLHGnM",
+            authDomain: "epbppp-ee3d3.firebaseapp.com",
+            projectId: "epbppp-ee3d3",
+            storageBucket: "epbppp-ee3d3.firebasestorage.app",
+            messagingSenderId: "398853390460",
+            appId: "1:398853390460:web:9e00fb9126d975c32989f9",
+            measurementId: "G-PLNMXCZB9B"
+        };
 
         window.addEventListener('load', async () => {
             initApp();
@@ -530,26 +538,15 @@
         }
 
         async function setupFirebase() {
-            if (!firebaseConfig) {
-                console.warn("No Firebase configuration found. Defaulting to local memory state.");
-                updateConnectionBadge('local');
-                fallbackLocalData();
-                return;
-            }
-
             try {
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
 
-                // Authentication (RULE 3 - Auth Before Queries)
-                let userCredential;
-                if (customToken) {
-                    userCredential = await signInWithCustomToken(auth, customToken);
-                } else {
-                    userCredential = await signInAnonymously(auth);
-                }
+                // Menggunakan Anonymous Authentication
+                const userCredential = await signInAnonymously(auth);
                 const user = userCredential.user;
+
                 if (!user) {
                     updateConnectionBadge('local');
                     fallbackLocalData();
@@ -561,7 +558,7 @@
                 tunjukMesej("Sambungan Awan berjaya disegerakkan!", "success");
 
                 // Pasang Real-Time Listener untuk Item 8 (Borang Skor)
-                onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', 'skor'), (docSnap) => {
+                onSnapshot(doc(db, 'epbppp_data', 'skor'), (docSnap) => {
                     if (docSnap.exists() && docSnap.data().rows) {
                         stateSkor = docSnap.data().rows;
                     } else {
@@ -574,7 +571,7 @@
                 });
 
                 // Pasang Real-Time Listener untuk Item 9 (Borang Keberhasilan)
-                onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', 'keberhasilan'), (docSnap) => {
+                onSnapshot(doc(db, 'epbppp_data', 'keberhasilan'), (docSnap) => {
                     if (docSnap.exists() && docSnap.data().rows) {
                         stateKeberhasilan = docSnap.data().rows;
                     } else {
@@ -587,7 +584,7 @@
                 });
 
                 // Pasang Real-Time Listener untuk Item 10 (Jadual)
-                onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', 'jadual'), (docSnap) => {
+                onSnapshot(doc(db, 'epbppp_data', 'jadual'), (docSnap) => {
                     if (docSnap.exists() && docSnap.data().rows) {
                         stateJadual = docSnap.data().rows;
                     } else {
@@ -600,7 +597,7 @@
                 });
 
             } catch (error) {
-                console.error("Firebase Initialization failed:", error);
+                console.error("Firebase Connection failed:", error);
                 updateConnectionBadge('local');
                 fallbackLocalData();
             }
@@ -637,7 +634,7 @@
         async function hantarKemaskiniAwan(type, data) {
             if (!isCloudConnected || !db) return;
             try {
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'epbppp-store', type);
+                const docRef = doc(db, 'epbppp_data', type);
                 await setDoc(docRef, { rows: data });
             } catch (error) {
                 console.error(`Gagal mengemas kini awan bagi [${type}]:`, error);
@@ -780,7 +777,7 @@
             if (target) {
                 target[field] = "";
                 hantarKemaskiniAwan(currentModalType, state);
-                tunjukMesej("Tandatangan dipadam. Anda boleh menandatangan semula.", "success");
+                tunjukMesej("Tandatangan dipadam. Sila tandatangan semula.", "success");
                 renderSkorTable();
             }
         };
